@@ -1,0 +1,14 @@
+{
+  "name": "electronic",
+  "version": "1.0.0",
+  "description": "test electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "cliff manyara",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^9.0.3"
+  }
+}

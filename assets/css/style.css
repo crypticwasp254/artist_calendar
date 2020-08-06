@@ -1,0 +1,589 @@
+html {
+  font-size: 16px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background: #2b2b2b;
+  color: #ffffff;
+  font-family: 'Poiret one', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  height: 2.5em;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+header .dateinfo {
+  padding-left: 1em;
+}
+
+header .dateinfo .day {
+  font-size: 1rem;
+}
+
+header .username {
+  text-transform: capitalize;
+  font-size: 1.3em;
+  padding-right: 3em;
+  opacity: .7;
+}
+
+header .username .name {
+  text-transform: none;
+  color: aqua;
+  opacity: .6;
+}
+
+main {
+  height: calc(100vh - 2.5em);
+  border-top-right-radius: .7em;
+  border-top-left-radius: .7em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70% 30%;
+      grid-template-columns: 70% 30%;
+}
+
+main .main {
+  top: 5%;
+  height: 95%;
+  background-color: #202124;
+  border-radius: .8em;
+  border-bottom-right-radius: 0em;
+  position: relative;
+  right: 15%;
+}
+
+main .side {
+  padding: .7em;
+}
+
+.calendar .calendar-head {
+  padding: .4em 0em;
+  position: relative;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.calendar .calendar-head .month {
+  margin: 1rem 0;
+  font-weight: 900;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+}
+
+.calendar .calendar-main {
+  padding: .1em;
+}
+
+.calendar .calendar-main .days {
+  color: aqua;
+  margin-top: .5em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[7];
+      grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar .calendar-main .days .day {
+  font-size: 1.1em;
+  font-weight: 800;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.calendar .calendar-main .dates {
+  margin-top: .8em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[7];
+      grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar .calendar-main .dates .date {
+  min-height: 3rem;
+  max-width: 3em;
+  font-size: 1.0em;
+  font-weight: 800;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+}
+
+.calendar .calendar-main .dates .date.active, .calendar .calendar-main .dates .date:hover {
+  color: aqua;
+  background: rgba(255, 255, 255, 0.219);
+  border-radius: 50%;
+}
+
+.highlights {
+  border-top-right-radius: .7em;
+  border-top-left-radius: .7em;
+  padding: .7em;
+  height: 100%;
+  background-color: #2f2f2f;
+  -webkit-box-shadow: 0 0 2px #202124;
+          box-shadow: 0 0 2px #202124;
+}
+
+.highlights h3 {
+  padding-left: 1rem;
+  text-transform: capitalize;
+  opacity: 0.7;
+}
+
+.highlights .highlight {
+  padding: 1rem;
+}
+
+.highlights .highlight h1 {
+  text-transform: capitalize;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: rgba(0, 255, 255, 0.582);
+  line-height: 1.5em;
+}
+
+.highlights .highlight.important h1 {
+  color: aqua;
+}
+
+.fab {
+  top: 70%;
+  position: absolute;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.fab .fab-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 3em;
+  width: 3em;
+  border-radius: 50%;
+  margin-bottom: .3em;
+  border: 2px solid rgba(0, 255, 255, 0.01);
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
+  cursor: pointer;
+}
+
+.fab .fab-icon:hover {
+  border: 2px solid rgba(0, 255, 255, 0.1);
+}
+
+svg {
+  height: 2.0rem;
+  width: 2.0rem;
+}
+
+.date-info .date {
+  font-weight: 900;
+  font-size: 4rem;
+}
+
+.date-info .date sup {
+  padding: .2rem;
+  font-size: 1.1rem;
+  color: aqua;
+}
+
+.date-info .day {
+  font-size: 1.5rem;
+  font-weight: 700;
+  opacity: .5;
+}
+
+.year {
+  position: absolute;
+  top: 84%;
+  left: 1em;
+  padding: .5rem;
+  font-size: 10rem;
+  opacity: 0.02;
+  font-weight: 900;
+}
+
+.content {
+  display: none;
+  height: 90%;
+  margin-left: 3.5em;
+  margin-top: .7em;
+  width: 90%;
+  border-radius: .7em;
+  padding: .7em;
+  position: relative;
+}
+
+.content.show {
+  display: block;
+}
+
+.content .timeline {
+  position: absolute;
+  height: 90%;
+  top: 0;
+  width: .1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: .1em;
+}
+
+.content .timeline .time {
+  height: 3em;
+  width: 3em;
+  color: rgba(0, 255, 255, 0.11);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50%;
+  background: #2b2b2b;
+  border: 2px solid rgba(255, 255, 255, 0.03);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  font-weight: 900;
+  margin-top: 2rem;
+}
+
+.content .timeline .time h1.date {
+  color: rgba(0, 255, 255, 0.4);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.content .goal {
+  color: #ffffff;
+  width: 100%;
+  margin-bottom: 1.3rem;
+  margin-left: 1.4rem;
+}
+
+.content .goal h3 {
+  margin-top: 1rem;
+  padding-left: 1em;
+  color: rgba(0, 255, 255, 0.7);
+  font-size: 1.4rem;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.content .goal .description {
+  margin-top: 1rem;
+  padding-left: 1em;
+  line-height: 1.4em;
+  width: 70%;
+  font-weight: 900;
+  opacity: 0.7;
+}
+
+.empty {
+  opacity: .05;
+  font-weight: 900;
+  font-size: 3rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  text-align: center;
+}
+
+.dots {
+  height: 100%;
+  width: 90%;
+  margin-left: 1.8rem;
+  position: relative;
+}
+
+.dots .tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: .8em;
+  padding-left: 2rem;
+}
+
+.dots .tabs .tab {
+  padding: .3em .5em;
+  border-bottom: 1px solid transparent;
+  margin: 0 .1em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.dots .tabs .tab.active-tab {
+  border-bottom: 1px solid aqua;
+}
+
+.dots .tab-content {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[7];
+      grid-template-columns: repeat(7, 1fr);
+  grid-gap: .3em;
+  padding: .3em .5em;
+  width: 95%;
+}
+
+.dots .tab-content .d {
+  min-height: 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 3rem;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.01);
+  -webkit-box-shadow: 0 0 2px #ffffff4d;
+          box-shadow: 0 0 2px #ffffff4d;
+  border-radius: .1em;
+}
+
+.logbook {
+  height: 100%;
+  width: 90%;
+  margin-left: 1.5rem;
+  position: relative;
+}
+
+.logbook .add-area {
+  height: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.logbook .actions {
+  width: 100%;
+  position: absolute;
+  top: 85%;
+  height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  right: 0;
+}
+
+.logbook .actions .action {
+  padding: 0 .5em;
+}
+
+.logbook .actions .action svg {
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+}
+
+.logbook .actions .action input {
+  width: 30rem;
+  padding: .6rem;
+  padding-left: 1rem;
+  border: none;
+  border-radius: 1.5em;
+  background: #353535;
+  outline: none;
+  font-family: 'Poiret one';
+  color: rgba(255, 255, 255, 0.527);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.logbook .actions .right-menu {
+  position: absolute;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.scheduler {
+  height: 100%;
+  width: 90%;
+  margin-left: 1.5em;
+  position: relative;
+}
+
+.scheduler .sched-area {
+  height: 80%;
+  padding-left: 1.3em;
+}
+
+.scheduler .sched-area .entry {
+  width: 100%;
+  background: #2f2f2f;
+  min-height: 15vh;
+  border-radius: .7em;
+  padding: .5em;
+  font-weight: 700;
+  -webkit-box-shadow: 0 0 2px #202124;
+          box-shadow: 0 0 2px #202124;
+}
+
+.scheduler .sched-area .entry .title {
+  color: aqua;
+  margin-bottom: .4em;
+  outline: none;
+  font-weight: 800;
+}
+
+.scheduler .sched-area .entry .note {
+  outline: none;
+  line-height: 1.3em;
+}
+
+.scheduler .sched-area .entry .add {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1em;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.scheduler .sched-area .entry .duration {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: .8em;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.scheduler .sched-area .entry .duration svg {
+  height: 1.5rem;
+  width: 1.5rem;
+  opacity: .1;
+}
+
+.scheduler .sched-area .entry .duration .timer {
+  outline: none;
+  padding-left: .6em;
+  font-size: .9rem;
+  color: rgba(0, 255, 255, 0.582);
+}
+
+.scheduler .actions {
+  width: 100%;
+  position: absolute;
+  top: 85%;
+  height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  right: 0;
+}
+
+.scheduler .actions .action {
+  padding: 0 .5em;
+}
+
+.scheduler .actions .action svg {
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+}
+
+.scheduler .actions .action input {
+  width: 30rem;
+  padding: .6rem;
+  padding-left: 1rem;
+  border: none;
+  border-radius: 1.5em;
+  background: #353535;
+  outline: none;
+  font-family: 'Poiret one';
+  color: rgba(255, 255, 255, 0.527);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.scheduler .actions .right-menu {
+  position: absolute;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+/*# sourceMappingURL=style.css.map */
