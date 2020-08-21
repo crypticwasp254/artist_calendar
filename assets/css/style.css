@@ -19,34 +19,16 @@ body {
   overflow: hidden;
   width: 100%;
   -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
 }
 
 header {
-  height: 2.5em;
-  font-size: 1.6rem;
-  font-weight: 700;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-}
-
-header .dateinfo {
-  padding-left: 1em;
-}
-
-header .dateinfo .day {
-  font-size: 1rem;
+  height: 3.5em;
 }
 
 header .username {
   text-transform: capitalize;
-  font-size: 1.3em;
+  font-size: 0.9em;
   padding-right: 3em;
   opacity: .7;
 }
@@ -57,8 +39,81 @@ header .username .name {
   opacity: .6;
 }
 
+header .frame {
+  width: 100%;
+  background: #202124;
+  min-height: 2.0em;
+  font-size: 1.6rem;
+  height: 2.0em;
+  -webkit-app-region: drag;
+}
+
+header .frame .right-menu {
+  position: absolute;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: .3em;
+}
+
+header .frame .right-menu .frame-action {
+  padding: 0em .5em;
+}
+
+header .frame .right-menu .frame-action svg {
+  height: 1.0rem;
+  width: 1.0rem;
+}
+
+header .frame #minmize,
+header .frame #maxmize,
+header .frame #close,
+header .frame #menu {
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  -webkit-transition: all 150ms ease-out;
+  transition: all 150ms ease-out;
+}
+
+header .frame #minmize:hover,
+header .frame #maxmize:hover,
+header .frame #close:hover,
+header .frame #menu:hover {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+}
+
+header .frame #minmize:hover #minmize-path,
+header .frame #maxmize:hover #minmize-path,
+header .frame #close:hover #minmize-path,
+header .frame #menu:hover #minmize-path {
+  stroke: aqua;
+}
+
+header .welcomebar {
+  font-size: 1.6rem;
+  font-weight: 700;
+  width: 100%;
+  height: 1.8em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-top-right-radius: .5em;
+  border-top-left-radius: .5em;
+  z-index: 112;
+  background-color: #2b2b2b;
+  margin-top: -0.7em;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
 main {
-  height: calc(100vh - 2.5em);
+  height: calc(100vh - 3.5em);
   border-top-right-radius: .7em;
   border-top-left-radius: .7em;
   display: -ms-grid;
@@ -101,7 +156,7 @@ main .side {
 }
 
 .calendar .calendar-main {
-  padding: .1em;
+  padding: .5em;
 }
 
 .calendar .calendar-main .days {
@@ -133,13 +188,14 @@ main .side {
   display: grid;
   -ms-grid-columns: (1fr)[7];
       grid-template-columns: repeat(7, 1fr);
+  min-height: 40vh;
 }
 
 .calendar .calendar-main .dates .date {
-  min-height: 3rem;
-  max-width: 3em;
-  font-size: 1.0em;
-  font-weight: 800;
+  height: 3em;
+  width: 3em;
+  font-size: 0.9em;
+  font-weight: 900;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -164,36 +220,60 @@ main .side {
   border-top-right-radius: .7em;
   border-top-left-radius: .7em;
   padding: .7em;
-  height: 100%;
+  max-height: 35vh;
+  height: 35vh;
   background-color: #2f2f2f;
-  -webkit-box-shadow: 0 0 2px #202124;
-          box-shadow: 0 0 2px #202124;
+  -webkit-box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
+          box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
+  overflow: hidden;
 }
 
 .highlights h3 {
   padding-left: 1rem;
   text-transform: capitalize;
   opacity: 0.7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
 }
 
-.highlights .highlight {
-  padding: 1rem;
+.highlights h3 svg {
+  height: 1.6rem;
 }
 
-.highlights .highlight h1 {
+.highlights h3 span {
+  margin-left: 1rem;
+  font-size: 1.4rem;
+}
+
+.highlights .pinned-event {
+  padding-left: 1rem;
+  height: 29vh;
+  width: 100%;
+  position: relative;
+}
+
+.highlights .pinned-event .pin-main {
+  bottom: -8em;
+}
+
+.highlights .pinned-event .pin-main h2 {
   text-transform: capitalize;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 800;
-  color: rgba(0, 255, 255, 0.582);
-  line-height: 1.5em;
 }
 
-.highlights .highlight.important h1 {
-  color: aqua;
+.highlights .pinned-event .pin-main p {
+  font-weight: 700;
+  font-size: 1.0rem;
+  opacity: 0.7;
 }
 
 .fab {
-  top: 70%;
+  top: 60%;
   position: absolute;
   height: 100%;
   display: -webkit-box;
@@ -232,6 +312,11 @@ main .side {
   border: 2px solid rgba(0, 255, 255, 0.1);
 }
 
+.fab .fab-icon.add {
+  margin-top: 5rem;
+  border: 2px solid rgba(0, 255, 255, 0.2);
+}
+
 svg {
   height: 2.0rem;
   width: 2.0rem;
@@ -252,16 +337,6 @@ svg {
   font-size: 1.5rem;
   font-weight: 700;
   opacity: .5;
-}
-
-.year {
-  position: absolute;
-  top: 84%;
-  left: 1em;
-  padding: .5rem;
-  font-size: 10rem;
-  opacity: 0.02;
-  font-weight: 900;
 }
 
 .content {
@@ -316,40 +391,74 @@ svg {
   font-weight: 900;
 }
 
-.content .goal {
-  color: #ffffff;
-  width: 100%;
-  margin-bottom: 1.3rem;
-  margin-left: 1.4rem;
+.view-schedule {
+  overflow: hidden;
+  height: 72vh;
+  position: relative;
+  padding-left: 1.5em;
 }
 
-.content .goal h3 {
-  margin-top: 1rem;
-  padding-left: 1em;
-  color: rgba(0, 255, 255, 0.7);
+.view-schedule .timeline {
+  position: fixed;
+  top: 12.5em;
+  height: 72vh;
+}
+
+.view-schedule .goals .goal {
+  position: relative;
+  color: #ffffff;
+  margin-bottom: 3rem;
+  margin-left: 1.5rem;
+  padding-left: 2em;
+}
+
+.view-schedule .goals .goal .timeofday {
+  height: 3em;
+  width: 3em;
+  color: rgba(0, 255, 255, 0.349);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50%;
+  background-color: #2b2b2b !important;
+  opacity: 1;
+  border: 2px solid rgba(255, 255, 255, 0.03);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%) translateX(-100%);
+          transform: translateY(-50%) translateX(-100%);
+  z-index: 75000;
+}
+
+.view-schedule .goals .goal h3 {
+  color: cyan;
   font-size: 1.4rem;
   font-weight: 900;
   text-transform: capitalize;
 }
 
-.content .goal .description {
-  margin-top: 1rem;
-  padding-left: 1em;
+.view-schedule .goals .goal h3 div {
+  opacity: 1;
+}
+
+.view-schedule .goals .goal .description,
+.view-schedule .goals .goal div {
+  padding-top: .6em;
   line-height: 1.4em;
   width: 70%;
   font-weight: 900;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
-.empty {
-  opacity: .05;
-  font-weight: 900;
-  font-size: 3rem;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  text-align: center;
+.view-schedule .goals .goal div {
+  padding-top: 0em;
 }
 
 .dots {
@@ -359,40 +468,20 @@ svg {
   position: relative;
 }
 
-.dots .tabs {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: .8em;
-  padding-left: 2rem;
-}
-
-.dots .tabs .tab {
-  padding: .3em .5em;
-  border-bottom: 1px solid transparent;
-  margin: 0 .1em;
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-transform: capitalize;
-  cursor: pointer;
-}
-
-.dots .tabs .tab.active-tab {
-  border-bottom: 1px solid aqua;
-}
-
 .dots .tab-content {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[7];
-      grid-template-columns: repeat(7, 1fr);
-  grid-gap: .3em;
+  -ms-grid-columns: (1fr)[6];
+      grid-template-columns: repeat(6, 1fr);
+  grid-gap: .8em;
   padding: .3em .5em;
-  width: 95%;
+  height: 65vh;
+  overflow: hidden;
 }
 
 .dots .tab-content .d {
-  min-height: 4rem;
+  min-height: 5rem;
+  cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -405,33 +494,136 @@ svg {
   font-size: 3rem;
   font-weight: 800;
   background: rgba(255, 255, 255, 0.01);
-  -webkit-box-shadow: 0 0 2px #ffffff4d;
-          box-shadow: 0 0 2px #ffffff4d;
+  -webkit-box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.302);
+          box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.302);
   border-radius: .1em;
+  -webkit-transition: all 350ms ease-out;
+  transition: all 350ms ease-out;
 }
 
-.logbook {
-  height: 100%;
+.dots .tab-content .d .index {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: .3em;
+  font-size: .3em;
+  opacity: .1;
+}
+
+.dots .tab-content .d.active-d, .dots .tab-content .d:hover {
+  -webkit-box-shadow: 0px 0px 2px rgba(0, 255, 255, 0.7);
+          box-shadow: 0px 0px 2px rgba(0, 255, 255, 0.7);
+  background: rgba(0, 255, 255, 0.01);
+}
+
+.dots .tab-content .d.active-d .index, .dots .tab-content .d:hover .index {
+  color: cyan;
+  opacity: .6;
+}
+
+.dots .actions {
+  padding-left: 3em;
   width: 90%;
-  margin-left: 1.5rem;
-  position: relative;
-}
-
-.logbook .add-area {
-  height: 80%;
+  position: absolute;
+  top: 85%;
+  height: 2rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  right: 0;
+}
+
+.dots .actions .action {
+  padding: 0 .5em;
+  font-weight: 800;
+}
+
+.dots .actions .action svg {
+  height: 1.7rem !important;
+  width: 1.7rem !important;
+}
+
+.dots .actions .action input {
+  width: 30rem;
+  padding: .6rem;
+  padding-left: 1rem;
+  border: none;
+  border-radius: 1.5em;
+  background: #353535;
+  outline: none;
+  font-family: 'Poiret one';
+  color: rgba(255, 255, 255, 0.527);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.dots .actions .action.action-btn {
+  background-color: rgba(0, 255, 255, 0.01);
+  padding: .4em 1.3em;
+  margin: 0 .4em;
+  border-radius: .4em;
+  border-bottom-right-radius: 0em;
+  border-bottom-left-radius: 0em;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  -webkit-transition: all 350ms ease;
+  transition: all 350ms ease;
+}
+
+.dots .actions .action.action-btn:hover {
+  border-bottom: 2px solid aqua;
+}
+
+.dots .actions .right-menu {
+  position: absolute;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.logbook {
+  height: 100%;
+  width: 90%;
+  position: relative;
+}
+
+.logbook .add-area {
+  height: 65vh;
+  padding-left: 1.5em;
+  overflow: hidden;
+}
+
+.logbook .add-area .timeline {
+  position: fixed;
+  height: 85vh;
+  top: 12.5em;
+}
+
+.logbook .add-area .notebook {
+  margin-left: 3em;
+  width: 92%;
+  height: 100%;
+  font-weight: 700;
+  outline: none;
+}
+
+.logbook .add-area .notebook .txt {
+  color: aqua;
+  opacity: 0.05;
+  font-size: 2rem;
+  border-right: 0.2rem solid rgba(0, 255, 255, 0.651);
 }
 
 .logbook .actions {
-  width: 100%;
+  padding-left: 5em;
+  width: 90%;
   position: absolute;
   top: 85%;
   height: 2rem;
@@ -446,11 +638,12 @@ svg {
 
 .logbook .actions .action {
   padding: 0 .5em;
+  font-weight: 800;
 }
 
 .logbook .actions .action svg {
-  height: 1.5rem !important;
-  width: 1.5rem !important;
+  height: 1.7rem !important;
+  width: 1.7rem !important;
 }
 
 .logbook .actions .action input {
@@ -467,35 +660,66 @@ svg {
   font-size: 1.1rem;
 }
 
+.logbook .actions .action.action-btn {
+  background-color: rgba(0, 255, 255, 0.01);
+  padding: .4em 1.3em;
+  margin: 0 .4em;
+  border-radius: .4em;
+  border-bottom-right-radius: 0em;
+  border-bottom-left-radius: 0em;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  -webkit-transition: all 350ms ease;
+  transition: all 350ms ease;
+}
+
+.logbook .actions .action.action-btn:hover {
+  border-bottom: 2px solid aqua;
+}
+
 .logbook .actions .right-menu {
   position: absolute;
   right: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .scheduler {
   height: 100%;
-  width: 90%;
-  margin-left: 1.5em;
+  width: 93%;
   position: relative;
 }
 
 .scheduler .sched-area {
-  height: 80%;
-  padding-left: 1.3em;
+  overflow: hidden;
+  position: relative;
+  height: 65vh;
+  padding-left: 1.5em;
+}
+
+.scheduler .sched-area .timeline {
+  position: fixed;
+  height: 85vh;
+  top: 12.5em;
 }
 
 .scheduler .sched-area .entry {
-  width: 100%;
+  position: relative;
+  width: 97%;
   background: #2f2f2f;
   min-height: 15vh;
   border-radius: .7em;
-  padding: .5em;
+  padding: .5em 1em;
   font-weight: 700;
-  -webkit-box-shadow: 0 0 2px #202124;
-          box-shadow: 0 0 2px #202124;
+  -webkit-box-shadow: 0 0 10px rgba(32, 33, 36, 0.041);
+          box-shadow: 0 0 10px rgba(32, 33, 36, 0.041);
+  margin-bottom: 1rem;
+  margin-left: 3.0em;
+  width: 90%;
 }
 
 .scheduler .sched-area .entry .title {
@@ -507,7 +731,7 @@ svg {
 
 .scheduler .sched-area .entry .note {
   outline: none;
-  line-height: 1.3em;
+  line-height: 1.5em;
 }
 
 .scheduler .sched-area .entry .add {
@@ -517,6 +741,30 @@ svg {
   margin: 1em;
   opacity: 0.7;
   cursor: pointer;
+}
+
+.scheduler .sched-area .entry .timeofday {
+  height: 3em;
+  width: 3em;
+  color: rgba(0, 255, 255, 0.349);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: #2b2b2b;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%) translateX(-150%);
+          transform: translateY(-50%) translateX(-150%);
+  z-index: 75000;
 }
 
 .scheduler .sched-area .entry .duration {
@@ -542,8 +790,33 @@ svg {
   color: rgba(0, 255, 255, 0.582);
 }
 
+.scheduler .sched-area .entry.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.scheduler .sched-area .entry.flex .avatar {
+  position: relative;
+  width: 10% !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.scheduler .sched-area .entry.addentry {
+  margin-bottom: 120px;
+}
+
 .scheduler .actions {
-  width: 100%;
+  padding-left: 5em;
+  width: 90%;
   position: absolute;
   top: 85%;
   height: 2rem;
@@ -558,11 +831,12 @@ svg {
 
 .scheduler .actions .action {
   padding: 0 .5em;
+  font-weight: 800;
 }
 
 .scheduler .actions .action svg {
-  height: 1.5rem !important;
-  width: 1.5rem !important;
+  height: 1.7rem !important;
+  width: 1.7rem !important;
 }
 
 .scheduler .actions .action input {
@@ -579,11 +853,31 @@ svg {
   font-size: 1.1rem;
 }
 
+.scheduler .actions .action.action-btn {
+  background-color: rgba(0, 255, 255, 0.01);
+  padding: .4em 1.3em;
+  margin: 0 .4em;
+  border-radius: .4em;
+  border-bottom-right-radius: 0em;
+  border-bottom-left-radius: 0em;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  -webkit-transition: all 350ms ease;
+  transition: all 350ms ease;
+}
+
+.scheduler .actions .action.action-btn:hover {
+  border-bottom: 2px solid aqua;
+}
+
 .scheduler .actions .right-menu {
   position: absolute;
   right: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 /*# sourceMappingURL=style.css.map */

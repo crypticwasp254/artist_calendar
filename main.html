@@ -4,17 +4,55 @@
 <head>
     <title>calendar</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+    <link rel="stylesheet" href="./assets/css/perfect-scrollbar.css">
+    <link rel="stylesheet" href="./assets/css/swiper.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
     <header class="header">
-        <div class="dateinfo">
-            <!-- <div class="date"> 22</div>
-            <div class="day">sunday</div> -->
+        <div class="frame">
+            <div class="right-menu">
+                <div class="menu  frame-action" id="menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                        <line x1="8" y1="152" x2="424" y2="152"
+                            style="fill:none;stroke:rgb(255, 255, 255);stroke-linecap:round;stroke-miterlimit:10;stroke-width:48px" />
+                        <line x1="88" y1="256" x2="424" y2="256"
+                            style="fill:none;stroke:rgb(255, 255, 255);stroke-linecap:round;stroke-miterlimit:10;stroke-width:48px" />
+                        <line x1="88" y1="360" x2="300" y2="360"
+                            style="fill:none;stroke:rgb(255, 255, 255);stroke-linecap:round;stroke-miterlimit:10;stroke-width:48px" />
+                        <line x1="8" y1="464" x2="424" y2="464"
+                            style="fill:none;stroke:rgb(255, 255, 255);stroke-linecap:round;stroke-miterlimit:10;stroke-width:48px" />
+                    </svg>
+                </div>
+                <div class="minmize frame-action" id="minmize">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                        <line id="minmize-path" x1="400" y1="256" x2="112" y2="256"
+                            style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                    </svg>
+                </div>
+                <div class="maxmize frame-action" id="maxmize">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                        <path
+                            d="M416,448H96a32.09,32.09,0,0,1-32-32V96A32.09,32.09,0,0,1,96,64H416a32.09,32.09,0,0,1,32,32V416A32.09,32.09,0,0,1,416,448Z"
+                            style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                    </svg>
+                </div>
+                <div class="close frame-action" id="close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                        <path style="fill: #ffffffe7;"
+                            d="M289.94,256l95-95A24,24,0,0,0,351,127l-95,95-95-95A24,24,0,0,0,127,161l95,95-95,95A24,24,0,1,0,161,385l95-95,95,95A24,24,0,0,0,385,351Z" />
+                    </svg>
+                </div>
+            </div>
         </div>
-        <div class="username">
-            good morning , <span class="name">clifford</span>
+        <div class="welcomebar">
+            <div class="dateinfo">
+            </div>
+            <div class="username">
+                <!-- add svg time show -->
+                good morning , <span class="name">clifford</span>
+            </div>
         </div>
     </header>
     <main>
@@ -85,179 +123,30 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="51" height="51" viewBox="0 0 512 512">
                         <title>add schedule</title>
                         <line x1="256" y1="112" x2="256" y2="400"
-                            style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                            style="fill:none;stroke:#00ffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
                         <line x1="400" y1="256" x2="112" y2="256"
-                            style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                            style="fill:none;stroke:#00ffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
                     </svg>
                 </div>
             </div>
-            <!-- <div class="year">
-                <span class="no">2</span>
-                <span class="no">0</span>
-                <span class="no">2</span>
-                <span class="no">0</span>
-            </div> -->
+            <!-- start page tab contents -->
             <div class="content show" id="sched-content">
-                <div class="timeline">
-                    <div class="time">
-                        <h1>3.</h1>
+                <div class="view-schedule">
+                    <div class="timeline">
                     </div>
-                    <div class="time">
-                        <h1>4.5</h1>
+                    <div class="goals">
                     </div>
-                    <div class="time" style="margin-top: 3.8em;">
-                        <h1>12.</h1>
-                    </div>
-                    <div class="time" style="margin-top: 3.2em;">
-                        <h1>18.</h1>
-                    </div>
-                </div>
-                <div class="goal">
-                    <h3 class="title">cryptic wasp</h3>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, harum placeat deserunt repudiandae
-                        aperiam saepe!.
-                    </p>
-                </div>
-                <div class="goal">
-                    <h3 class="title">cardi</h3>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, harum placeat deserunt repudiandae
-                        aperiam saepe!.
-                    </p>
-                </div>
-                <div class="goal">
-                    <h3 class="title">node-django</h3>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, harum placeat deserunt repudiandae
-                        aperiam saepe!.
-                    </p>
-                </div>
-                <div class="goal">
-                    <h3 class="title">learn electron</h3>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, harum placeat deserunt repudiandae
-                        aperiam saepe!.
-                    </p>
                 </div>
             </div>
             <div class="content" id="dots-content">
-                <div class="timeline">
-                    <div class="time">1</div>
-                </div>
                 <div class="dots">
-                    <div class="tabs">
-                        <div class="tab activity active-tab">blender</div>
-                        <div class="tab activity">electron</div>
-                        <div class="tab activity">cardi</div>
+                    <div class="timeline">
+                        <div class="time">1</div>
                     </div>
-                    <div class="tab-content grid">
-                        <div class="d">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-                                <title>done</title>
-                                <path style="fill: azure;"
-                                    d="M289.94,256l95-95A24,24,0,0,0,351,127l-95,95-95-95A24,24,0,0,0,127,161l95,95-95,95A24,24,0,1,0,161,385l95-95,95,95A24,24,0,0,0,385,351Z" />
-                            </svg>
-                        </div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                        <div class="d"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="content" id="logbook-content">
-                <div class="timeline">
-                    <div class="time">
-                        <h1 class="date">22<sup>nd</sup></h1>
-                    </div>
-                </div>
-                <div class="logbook">
-                    <div class="add-area">
-                        <h1 class="empty">what happened today?</h1>
+                    <div class="tab-content grid dots-area" id="grid-dots" style="padding-left: 3em;">
                     </div>
                     <div class="actions">
-                        <div class="action field">
-                            <input type="text" placeholder="did you make a friend today ?">
-                        </div>
                         <div class="right-menu">
-                            <div class="acton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-                                    <title>ionicons-v5-k</title>
-                                    <polygon points="364.13 125.25 87 403 64 448 108.99 425 386.75 147.87 364.13 125.25"
-                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                                    <path
-                                        d="M420.69,68.69,398.07,91.31l22.62,22.63,22.62-22.63a16,16,0,0,0,0-22.62h0A16,16,0,0,0,420.69,68.69Z"
-                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                                </svg>
-                            </div>
-                            <div class="action">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-                                    <title>ionicons-v5-e</title>
-                                    <path
-                                        d="M350.54,148.68l-26.62-42.06C318.31,100.08,310.62,96,302,96H210c-8.62,0-16.31,4.08-21.92,10.62l-26.62,42.06C155.85,155.23,148.62,160,140,160H80a32,32,0,0,0-32,32V384a32,32,0,0,0,32,32H432a32,32,0,0,0,32-32V192a32,32,0,0,0-32-32H373C364.35,160,356.15,155.23,350.54,148.68Z"
-                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                                    <circle cx="256" cy="272" r="80"
-                                        style="fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:32px" />
-                                    <polyline points="124 158 124 136 100 136 100 158"
-                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                                </svg>
-                            </div>
-                            <div class="action">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-                                    <title>ionicons-v5-g</title>
-                                    <path
-                                        d="M374.79,308.78,457.5,367A16,16,0,0,0,480,352.38V159.62A16,16,0,0,0,457.5,145l-82.71,58.22A16,16,0,0,0,368,216.3v79.4A16,16,0,0,0,374.79,308.78Z"
-                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                                    <path
-                                        d="M268,384H84a52.15,52.15,0,0,1-52-52V180a52.15,52.15,0,0,1,52-52H268.48A51.68,51.68,0,0,1,320,179.52V332A52.15,52.15,0,0,1,268,384Z"
-                                        style="fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:32px" />
-                                </svg>
-                            </div>
                             <div class="action">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
                                     <title>ionicons-v5-a</title>
@@ -274,27 +163,74 @@
                     </div>
                 </div>
             </div>
-            <div class="content" id="add-content">
-                <div class="timeline">
-                    <div class="time now">
-                        <h1>0.</h1>
+            <div class="content" id="logbook-content">
+                <div class="logbook">
+                    <div class="add-area">
+                        <div class="timeline">
+                            <div class="time">
+                                <h1 class="date">22<sup>nd</sup></h1>
+                            </div>
+                        </div>
+                        <div class="notebook" contenteditable>
+                            <!-- <div class="typewrite"
+                                data-words='["Did you watch a movie?","What happened today?","What was the day like?","Log you day. to remember it!"]'
+                                data-wait="1000"></div> -->
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div class="right-menu">
+                            <div class="action">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                                    <path
+                                        d="M350.54,148.68l-26.62-42.06C318.31,100.08,310.62,96,302,96H210c-8.62,0-16.31,4.08-21.92,10.62l-26.62,42.06C155.85,155.23,148.62,160,140,160H80a32,32,0,0,0-32,32V384a32,32,0,0,0,32,32H432a32,32,0,0,0,32-32V192a32,32,0,0,0-32-32H373C364.35,160,356.15,155.23,350.54,148.68Z"
+                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                                    <circle cx="256" cy="272" r="80"
+                                        style="fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:32px" />
+                                    <polyline points="124 158 124 136 100 136 100 158"
+                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                                </svg>
+                            </div>
+                            <div class="action">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                                    <path
+                                        d="M374.79,308.78,457.5,367A16,16,0,0,0,480,352.38V159.62A16,16,0,0,0,457.5,145l-82.71,58.22A16,16,0,0,0,368,216.3v79.4A16,16,0,0,0,374.79,308.78Z"
+                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                                    <path
+                                        d="M268,384H84a52.15,52.15,0,0,1-52-52V180a52.15,52.15,0,0,1,52-52H268.48A51.68,51.68,0,0,1,320,179.52V332A52.15,52.15,0,0,1,268,384Z"
+                                        style="fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:32px" />
+                                </svg>
+                            </div>
+                            <div class="action">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                                    <path
+                                        d="M448,256c0-106-86-192-192-192S64,150,64,256s86,192,192,192S448,362,448,256Z"
+                                        style="fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:32px" />
+                                    <line x1="256" y1="176" x2="256" y2="336"
+                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                                    <line x1="336" y1="256" x2="176" y2="256"
+                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="content" id="add-content">
                 <div class="scheduler">
                     <div class="sched-area">
-                        <div class="entry">
-                            <h1 class="title" contenteditable>title</h1>
-                            <p class="note" contenteditable>add a short note...</p>
+                        <div class="timeline"></div>
+                        <div class="entry addentry">
+                            <h1 class="title" contenteditable placeholder>title</h1>
+                            <div class="note" contenteditable>add a short note...</div>
                             <div class="duration">
                                 <svg xmlns="http://www.w3.org/2000/svg" id="rotateanim" width="512" height="512"
                                     viewBox="0 0 512 512">
-                                    <title>ionicons-v5-i</title>
                                     <path
                                         d="M145.61,464H366.39c19.8,0,35.55-16.29,33.42-35.06C386.06,308,304,310,304,256s83.11-51,95.8-172.94c2-18.78-13.61-35.06-33.41-35.06H145.61c-19.8,0-35.37,16.28-33.41,35.06C124.89,205,208,201,208,256s-82.06,52-95.8,172.94C110.06,447.71,125.81,464,145.61,464Z"
                                         style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
                                 </svg>
                                 <div class="timer" id='timer' contenteditable="">
-                                    14:23 - 18:00
+                                    14:23 + 30
                                 </div>
                             </div>
                             <div class="add" id='addschedule'>
@@ -311,24 +247,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="actions">
-                        <div class="action field">
-                            <input type="text" placeholder="today's schedule ?">
-                        </div>
+                    <div class="actions" style="padding-left: 5em;">
                         <div class="right-menu">
-                            <div class="acton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-                                    <title>ionicons-v5-k</title>
-                                    <polygon points="364.13 125.25 87 403 64 448 108.99 425 386.75 147.87 364.13 125.25"
-                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                                    <path
-                                        d="M420.69,68.69,398.07,91.31l22.62,22.63,22.62-22.63a16,16,0,0,0,0-22.62h0A16,16,0,0,0,420.69,68.69Z"
-                                        style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                                </svg>
-                            </div>
                             <div class="action">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-                                    <title>ionicons-v5-a</title>
                                     <path
                                         d="M448,256c0-106-86-192-192-192S64,150,64,256s86,192,192,192S448,362,448,256Z"
                                         style="fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:32px" />
@@ -363,26 +285,55 @@
                 </div>
             </div>
             <div class="highlights">
-                <!-- add icons here -->
-                <h3>today's highlights</h3>
-                <div class="highlight">
-                    <h1>learn node and electron this week</h1>
-                </div>
-                <div class="highlight important">
-                    <h1>dont forget to open blender again</h1>
+                <h3>
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        width="20" height="20" viewBox="0 0 20 20">
+                        <path fill="#ffffff"
+                            d="M18 6.793l-5.293-5.293c-0.188-0.188-0.44-0.292-0.707-0.292s-0.519 0.104-0.707 0.292l-0.293 0.293c-0.29 0.29-0.5 0.797-0.5 1.207v1c0 0.142-0.106 0.399-0.207 0.5l-2.793 2.793c-0.101 0.101-0.358 0.207-0.5 0.207h-1c-0.41 0-0.917 0.21-1.207 0.5l-0.293 0.293c-0.39 0.39-0.39 1.024 0 1.414l1.553 1.553-4.95 6.435c-0.153 0.199-0.135 0.481 0.043 0.658 0.097 0.097 0.225 0.146 0.354 0.146 0.107 0 0.214-0.034 0.305-0.104l6.435-4.95 1.553 1.553c0.188 0.188 0.44 0.292 0.707 0.292s0.519-0.104 0.707-0.292l0.293-0.293c0.29-0.29 0.5-0.797 0.5-1.207v-1c0-0.142 0.106-0.399 0.207-0.5l2.793-2.793c0.101-0.101 0.358-0.207 0.5-0.207h1c0.41 0 0.917-0.21 1.207-0.5l0.293-0.293c0.188-0.188 0.292-0.44 0.292-0.707s-0.104-0.519-0.292-0.707zM4.234 15.266l2.533-3.293 0.76 0.76-3.293 2.533zM17 7.793c-0.101 0.101-0.358 0.207-0.5 0.207h-1c-0.41 0-0.917 0.21-1.207 0.5l-2.793 2.793c-0.29 0.29-0.5 0.797-0.5 1.207v1c0 0.142-0.106 0.399-0.207 0.5l-0.292 0.292c-0 0-0.001 0-0.001 0v0.001l-5.293-5.293 0.293-0.293c0.101-0.101 0.358-0.207 0.5-0.207h1c0.41 0 0.917-0.21 1.207-0.5l2.793-2.793c0.29-0.29 0.5-0.797 0.5-1.207v-1c0-0.142 0.106-0.399 0.207-0.5l0.293-0.293 5.293 5.293-0.293 0.293z">
+                        </path>
+                    </svg>
+                    <span>pinned</span>
+                </h3>
+                <div class="pinned-event swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="pin-main swiper-slide">
+                            <h2>Blender</h2>
+                            <p>dont forget to open blender</p>
+                        </div>
+                        <div class="pin-main swiper-slide">
+                            <h2>tux</h2>
+                            <p>tux typing class</p>
+                        </div>
+                        <div class="pin-main swiper-slide">
+                            <h2>python</h2>
+                            <p>make a script</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </section>
     </main>
+    <script src="./assets/js/storage.js"></script>
+    <script src="./assets/js/perfect-scrollbar.min.js"></script>
     <script src="./assets/js/anime.min.js"></script>
     <script src="./assets/js/calendar.js"></script>
+    <script src="./assets/js/swiper.min.js"></script>
     <script>
-        var now = document.querySelector('.now');
         var time = new Date();
-        var duration = document.querySelector('.duration');
-        // duration.innerHTML = `set time :${time.getHours()}:${time.getMinutes()}`;
-        now.innerHTML = `${time.getHours()}.`;
+        var duration = document.querySelector('.duration .timer');
+        duration.innerHTML = `${time.getHours()}:${time.getMinutes()} + 30`;
+
+        var sched_area = document.querySelector('.sched-area')
+        var dots_area = document.querySelectorAll('.dots-area')
+        var add_area = document.querySelectorAll('.add-area')
+        const ps_sched = new PerfectScrollbar(sched_area)
+        const ps_view = new PerfectScrollbar('.view-schedule')
+
+        new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: true
+        })
     </script>
 </body>
 
