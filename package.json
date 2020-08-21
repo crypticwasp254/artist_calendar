@@ -1,7 +1,7 @@
 {
-  "name": "electronic",
+  "name": "calendar",
   "version": "1.0.0",
-  "description": "test electron",
+  "description": "calendar for artists inspired by austin kleon's steal like an artist book",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
