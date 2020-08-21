@@ -1,0 +1,141 @@
+@mixin actions {
+    width: 90%;
+    position: absolute;
+    top: 85%;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    right: 0;
+
+
+    .action {
+        padding: 0 .5em;
+        font-weight: 800;
+
+        svg {
+            height: 1.7rem !important;
+            width: 1.7rem !important;
+        }
+
+        input {
+            width: 30rem;
+            padding: .6rem;
+            padding-left: 1rem;
+            border: none;
+            border-radius: 1.5em;
+            background: #353535;
+            outline: none;
+            font-family: 'Poiret one';
+            color: rgba(255, 255, 255, 0.527);
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+        &.action-btn {
+            background-color: rgba(0, 255, 255, 0.01);
+            padding: .4em 1.3em;
+            margin:0 .4em;
+            border-radius: .4em;
+            border-bottom-right-radius: 0em;
+            border-bottom-left-radius: 0em;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 350ms ease;
+
+            &:hover {
+                // background-color: rgba(0, 255, 255, 0.04);
+                border-bottom: 2px solid aqua;
+            }
+        }
+    }
+
+    .right-menu {
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;
+    }
+}
+
+@mixin entry{
+    position: relative;
+    width: 97%;
+    background: #2f2f2f;
+    min-height: 15vh;
+    border-radius: .7em;
+    padding: .5em 1em;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(32, 33, 36, 0.041);
+    margin-bottom: 1rem;
+
+    .title {
+        color: aqua;
+        margin-bottom: .4em;
+        outline: none;
+        font-weight: 800;
+    }
+
+    .note {
+        outline: none;
+        line-height: 1.5em;
+    }
+
+    .add {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 1em;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    .timeofday {
+        height: 3em;
+        width: 3em;
+        color: rgba(0, 255, 255, 0.349);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 2px solid rgba($color: #ffffff, $alpha: 0.2);
+        background-color: #2b2b2b;
+
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%) translateX(-150%);
+        z-index: 75000;
+    }
+
+    .duration {
+        display: flex;
+        margin-top: .8em;
+        align-items: flex-end;
+
+        svg {
+            height: 1.5rem;
+            width: 1.5rem;
+            opacity: .1;
+        }
+
+        .timer {
+            outline: none;
+            padding-left: .6em;
+            font-size: .9rem;
+            color: rgba(0, 255, 255, 0.582);
+        }
+    }
+    &.flex {
+        display: flex;
+        .avatar {
+            position: relative;
+            width: 10% !important;
+            // height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    &.addentry {
+        margin-bottom: 120px;
+    }
+}
