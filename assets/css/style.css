@@ -11,10 +11,20 @@ html {
           box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'Poiret one';
+  src: url("../fonts/PoiretOne-Regular.ttf");
+}
+
+@font-face {
+  font-family: 'Pmarker';
+  src: url("../fonts/PermanentMarker-Regular.ttf");
+}
+
 body {
   background: #2b2b2b;
   color: #ffffff;
-  font-family: 'Poiret one', sans-serif;
+  font-family: 'Poiret one' !important;
   height: 100vh;
   overflow: hidden;
   width: 100%;
@@ -46,6 +56,21 @@ header .frame {
   font-size: 1.6rem;
   height: 2.0em;
   -webkit-app-region: drag;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+header .frame .logo {
+  color: aqua;
+  font-weight: 900;
+  margin-left: .4em;
+}
+
+header .frame .logo img {
+  margin-top: .2em;
+  height: 1.2em;
+  opacity: 0.5;
 }
 
 header .frame .right-menu {
@@ -123,13 +148,12 @@ main {
 }
 
 main .main {
-  top: 5%;
   height: 95%;
   background-color: #202124;
   border-radius: .8em;
   border-bottom-right-radius: 0em;
   position: relative;
-  right: 15%;
+  right: 10%;
 }
 
 main .side {
@@ -153,6 +177,46 @@ main .side {
   font-weight: 900;
   font-size: 1.5rem;
   text-transform: capitalize;
+}
+
+.calendar .calendar-head .controls {
+  position: absolute;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 1em 0;
+  padding: .5em 1em;
+}
+
+.calendar .calendar-head .controls svg {
+  height: 1.5em;
+  opacity: 0.5;
+}
+
+.calendar .calendar-head .controls .next-month,
+.calendar .calendar-head .controls .prev-month {
+  height: 2.0em;
+  width: 2.0em;
+  background: rgba(0, 255, 255, 0.01);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 255, 255, 0.001);
+  cursor: pointer;
 }
 
 .calendar .calendar-main {
@@ -220,9 +284,14 @@ main .side {
   border-top-right-radius: .7em;
   border-top-left-radius: .7em;
   padding: .7em;
-  max-height: 35vh;
-  height: 35vh;
+  max-height: 37vh;
+  height: 37vh;
   background-color: #2f2f2f;
+  background-image: url("../icons/png/icon.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 230px 0px;
+  background-blend-mode: overlay;
   -webkit-box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
           box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
   overflow: hidden;
@@ -257,7 +326,7 @@ main .side {
 }
 
 .highlights .pinned-event .pin-main {
-  bottom: -8em;
+  bottom: -10em;
 }
 
 .highlights .pinned-event .pin-main h2 {
@@ -314,7 +383,6 @@ main .side {
 
 .fab .fab-icon.add {
   margin-top: 5rem;
-  border: 2px solid rgba(0, 255, 255, 0.2);
 }
 
 svg {
@@ -363,6 +431,32 @@ svg {
   border-radius: .1em;
 }
 
+.content .timeline .timeofday {
+  height: 3em;
+  width: 3em;
+  color: rgba(127, 255, 0, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50%;
+  background-color: #2b2b2b !important;
+  opacity: 1;
+  border: 2px solid rgba(127, 255, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 75000;
+  -webkit-transform: translateX(-24px);
+          transform: translateX(-24px);
+  font-weight: 800;
+}
+
 .content .timeline .time {
   height: 3em;
   width: 3em;
@@ -393,7 +487,7 @@ svg {
 
 .view-schedule {
   overflow: hidden;
-  height: 72vh;
+  height: 77vh;
   position: relative;
   padding-left: 1.5em;
 }
@@ -407,7 +501,7 @@ svg {
 .view-schedule .goals .goal {
   position: relative;
   color: #ffffff;
-  margin-bottom: 3rem;
+  margin-bottom: 9rem;
   margin-left: 1.5rem;
   padding-left: 2em;
 }
@@ -435,6 +529,37 @@ svg {
   -webkit-transform: translateY(-50%) translateX(-100%);
           transform: translateY(-50%) translateX(-100%);
   z-index: 75000;
+  -webkit-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.view-schedule .goals .goal .timeofday span#hr {
+  font-size: 20px;
+}
+
+.view-schedule .goals .goal .timeofday span#min {
+  position: absolute;
+  font-size: 10px;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  right: 0;
+  bottom: 0;
+  color: rgba(127, 255, 0, 0.5);
+}
+
+.view-schedule .goals .goal .progress {
+  position: absolute;
+  left: 0;
+  -webkit-transform: translateX(-1.5em) translateY(3em);
+          transform: translateX(-1.5em) translateY(3em);
+  z-index: 74999;
+  height: 0%;
+  background: rgba(0, 255, 255, 0.3);
+  width: .1em;
+}
+
+.view-schedule .goals .goal .progress.hrscale {
+  background: rgba(127, 255, 0, 0.3);
 }
 
 .view-schedule .goals .goal h3 {
@@ -454,7 +579,12 @@ svg {
   line-height: 1.4em;
   width: 70%;
   font-weight: 900;
-  opacity: 0.5;
+  opacity: 0.9;
+}
+
+.view-schedule .goals .goal#passed .timeofday, .view-schedule .goals .goal#started .timeofday {
+  color: rgba(0, 255, 255, 0.3);
+  border: 2px solid rgba(0, 255, 255, 0.3);
 }
 
 .view-schedule .goals .goal div {
@@ -480,6 +610,7 @@ svg {
 }
 
 .dots .tab-content .d {
+  position: relative;
   min-height: 5rem;
   cursor: pointer;
   display: -webkit-box;
@@ -491,6 +622,7 @@ svg {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  font-family: 'Pmarker';
   font-size: 3rem;
   font-weight: 800;
   background: rgba(255, 255, 255, 0.01);
@@ -501,13 +633,29 @@ svg {
   transition: all 350ms ease-out;
 }
 
-.dots .tab-content .d .index {
+.dots .tab-content .d .index,
+.dots .tab-content .d .show_next_month {
+  font-family: 'Poiret one';
   position: absolute;
   top: 0;
   left: 0;
   padding: .3em;
   font-size: .3em;
-  opacity: .1;
+  opacity: .2;
+}
+
+.dots .tab-content .d .show_next_month {
+  right: 0 !important;
+  color: aqua;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 
 .dots .tab-content .d.active-d, .dots .tab-content .d:hover {
@@ -539,6 +687,7 @@ svg {
 .dots .actions .action {
   padding: 0 .5em;
   font-weight: 800;
+  cursor: pointer;
 }
 
 .dots .actions .action svg {
@@ -588,9 +737,83 @@ svg {
           align-items: center;
 }
 
+.dots .actions .activity {
+  text-transform: capitalize;
+  color: aqua;
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  padding-bottom: .3em;
+}
+
+.dots .actions .activity.active-tab {
+  border-bottom: 2px solid white;
+}
+
+.dots #add-activity {
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+
+.dots .add-overlay {
+  display: none;
+  position: absolute;
+  bottom: 18%;
+  background: #202124;
+  right: 0;
+  z-index: 1000;
+  border-radius: 6px;
+  padding: .5em;
+  height: 33vh;
+  width: 25vw;
+  font-weight: 800;
+  -webkit-box-shadow: 0 0 10px 0px #2b2b2bcb;
+          box-shadow: 0 0 10px 0px #2b2b2bcb;
+}
+
+.dots .add-overlay input[type='text'] {
+  width: 100%;
+  outline: none;
+  border: none;
+  padding: .5em 1em;
+  padding-bottom: 0.3em;
+  font-family: 'Poiret one';
+  font-size: 16px;
+  font-weight: 800 !important;
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+  color: aqua;
+}
+
+.dots .add-overlay .input-container {
+  margin: .7em 0em;
+}
+
+.dots .add-overlay .save-actions {
+  margin-top: 0.5em;
+}
+
+.dots .add-overlay .save-actions svg {
+  float: right;
+}
+
+.dots .add-overlay .save-actions button {
+  border: none;
+  height: 100%;
+  width: 100%;
+  padding: .5em .9em;
+  border-radius: .2em;
+  font-family: 'Poiret one';
+  font-weight: 800;
+  font-size: 18px;
+  background-color: aqua;
+  outline: none;
+  cursor: pointer;
+}
+
 .logbook {
   height: 100%;
-  width: 90%;
   position: relative;
 }
 
@@ -607,22 +830,78 @@ svg {
 }
 
 .logbook .add-area .notebook {
+  position: relative;
   margin-left: 3em;
-  width: 92%;
+  width: 90%;
   height: 100%;
   font-weight: 700;
   outline: none;
 }
 
-.logbook .add-area .notebook .txt {
+.logbook .add-area .notebook h2 {
+  color: aqua !important;
+  text-transform: capitalize;
+}
+
+.logbook .add-area .notebook div {
+  line-height: 1.4;
+  font-size: 1.2rem;
+}
+
+.logbook .add-area .notebook span {
+  font-weight: 900 !important;
   color: aqua;
-  opacity: 0.05;
-  font-size: 2rem;
-  border-right: 0.2rem solid rgba(0, 255, 255, 0.651);
+  font-size: 1.2rem;
+}
+
+.logbook .add-area .notebook img {
+  width: 90%;
+  max-height: 40vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: .3em;
+  margin-top: .5em;
+}
+
+.logbook .edit-options {
+  background: #202124;
+  padding: 0.5em 1em;
+  border-radius: 1em;
+  padding-left: 2em;
+  -webkit-transform: translateX(-2em);
+          transform: translateX(-2em);
+  opacity: 0;
+  pointer-events: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+}
+
+.logbook .edit-options .btn {
+  padding: 0em .5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+}
+
+.logbook .edit-options svg {
+  height: 1.2em !important;
+  width: 1.2em !important;
 }
 
 .logbook .actions {
-  padding-left: 5em;
+  margin-right: 2em;
+  padding-left: 1em;
   width: 90%;
   position: absolute;
   top: 85%;
@@ -639,6 +918,7 @@ svg {
 .logbook .actions .action {
   padding: 0 .5em;
   font-weight: 800;
+  cursor: pointer;
 }
 
 .logbook .actions .action svg {
@@ -690,7 +970,7 @@ svg {
 
 .scheduler {
   height: 100%;
-  width: 93%;
+  width: 100%;
   position: relative;
 }
 
@@ -711,7 +991,7 @@ svg {
   position: relative;
   width: 97%;
   background: #2f2f2f;
-  min-height: 15vh;
+  min-height: 20vh;
   border-radius: .7em;
   padding: .5em 1em;
   font-weight: 700;
@@ -732,6 +1012,7 @@ svg {
 .scheduler .sched-area .entry .note {
   outline: none;
   line-height: 1.5em;
+  min-height: 3em;
 }
 
 .scheduler .sched-area .entry .add {
@@ -740,6 +1021,7 @@ svg {
   right: 0;
   margin: 1em;
   opacity: 0.7;
+  margin-top: 2em;
   cursor: pointer;
 }
 
@@ -757,7 +1039,7 @@ svg {
       -ms-flex-pack: center;
           justify-content: center;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.03);
   background-color: #2b2b2b;
   position: absolute;
   top: 50%;
@@ -811,7 +1093,105 @@ svg {
 }
 
 .scheduler .sched-area .entry.addentry {
+  padding: 1em;
   margin-bottom: 120px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.scheduler .sched-area .entry.addentry input,
+.scheduler .sched-area .entry.addentry textarea {
+  font-family: 'Poiret one';
+  font-size: 24px;
+  background: transparent;
+  outline: none;
+  border: none;
+  color: #ffffff;
+}
+
+.scheduler .sched-area .entry.addentry input::-webkit-input-placeholder,
+.scheduler .sched-area .entry.addentry textarea::-webkit-input-placeholder {
+  font-family: 'Poiret one';
+  color: aqua;
+  font-weight: 800;
+}
+
+.scheduler .sched-area .entry.addentry input:-ms-input-placeholder,
+.scheduler .sched-area .entry.addentry textarea:-ms-input-placeholder {
+  font-family: 'Poiret one';
+  color: aqua;
+  font-weight: 800;
+}
+
+.scheduler .sched-area .entry.addentry input::-ms-input-placeholder,
+.scheduler .sched-area .entry.addentry textarea::-ms-input-placeholder {
+  font-family: 'Poiret one';
+  color: aqua;
+  font-weight: 800;
+}
+
+.scheduler .sched-area .entry.addentry input::placeholder,
+.scheduler .sched-area .entry.addentry textarea::placeholder {
+  font-family: 'Poiret one';
+  color: aqua;
+  font-weight: 800;
+}
+
+.scheduler .sched-area .entry .range-duration input {
+  width: 95%;
+}
+
+.scheduler .sched-area .entry .range-duration .options {
+  position: relative;
+  margin-top: 1em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.scheduler .sched-area .entry .range-duration .options .start {
+  position: relative;
+}
+
+.scheduler .sched-area .entry .range-duration .options .more-settings {
+  position: relative;
+}
+
+.scheduler .sched-area .entry .range-duration .options .more-settings svg {
+  position: absolute;
+  top: -15px;
+  right: 0;
+}
+
+.scheduler .sched-area .entry .range-duration #start-time-input {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.scheduler .sched-area .entry .range-duration #start-time-input::-webkit-input-placeholder {
+  opacity: 0.3;
+}
+
+.scheduler .sched-area .entry .range-duration #start-time-input:-ms-input-placeholder {
+  opacity: 0.3;
+}
+
+.scheduler .sched-area .entry .range-duration #start-time-input::-ms-input-placeholder {
+  opacity: 0.3;
+}
+
+.scheduler .sched-area .entry .range-duration #start-time-input::placeholder {
+  opacity: 0.3;
 }
 
 .scheduler .actions {
@@ -832,6 +1212,7 @@ svg {
 .scheduler .actions .action {
   padding: 0 .5em;
   font-weight: 800;
+  cursor: pointer;
 }
 
 .scheduler .actions .action svg {
@@ -879,5 +1260,461 @@ svg {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.context-menu {
+  position: absolute;
+  color: #ffffff;
+  font-weight: 800;
+  display: none;
+  height: 15vh;
+  width: 16vw;
+  background: #2b2b2b;
+  opacity: 0.96;
+  -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  border-radius: .3em;
+}
+
+.context-menu .item {
+  width: 100%;
+  padding: .5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.context-menu .item .name {
+  margin-left: 1.4em;
+}
+
+.context-menu .item .shortcut {
+  float: right;
+  margin-left: auto;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  font-size: .8em;
+  padding-right: 1.2em;
+  text-transform: lowercase;
+}
+
+.context-menu .item:hover {
+  color: aqua;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ps__rail-y,
+.ps__rail-x {
+  display: none !important;
+}
+
+.calendar-actions {
+  position: absolute;
+  top: 16vh;
+  right: -3.2em;
+  z-index: 3000;
+  background-color: #2f2f2fcc;
+  height: 45vh;
+  width: 3.2em;
+  -webkit-box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
+          box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
+  border-radius: 0.8em;
+  border-top-right-radius: 0em;
+  border-bottom-right-radius: 0em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+
+.calendar-actions svg {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.calendar-actions .date_selected {
+  font-size: 18px;
+  font-weight: 900;
+  color: #01ffff;
+}
+
+.calendar-actions .action {
+  cursor: pointer;
+  padding: .5em 1em;
+}
+
+#slider {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 100%;
+  height: 6px;
+  background: aqua;
+  opacity: 0.3;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+  border-radius: 30px;
+}
+
+#slider:hover {
+  opacity: 0.6;
+}
+
+#slider::-webkit-slider-runnable-track {
+  width: 100%;
+  cursor: pointer;
+  border-radius: 1.3px;
+  -webkit-appearance: none;
+          appearance: none;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+#slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.dropdown-wrapper {
+  position: relative;
+  width: 100px;
+  padding: 10px;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.dropdown-wrapper::after {
+  content: '';
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  margin-top: -6px;
+  border-width: 6px 0 6px 6px;
+  border-style: solid;
+  border-color: transparent #ffffff;
+}
+
+.dropdown-wrapper .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dropdown-wrapper .dropdown li {
+  padding: 10px;
+  list-style: none;
+  display: block;
+}
+
+.dropdown-wrapper.active .dropdown {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dropdown-wrapper.active::after {
+  margin-top: -4px;
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: #ffffff transparent;
+}
+
+.checkbox {
+  position: relative;
+  display: block;
+  padding-left: 28px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: rgba(0, 255, 255, 0.473);
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.checkbox .checkmark::after {
+  content: '';
+  position: absolute;
+  display: none;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.checkbox input:checked ~ .checkmark {
+  background-color: rgba(0, 255, 255, 0.644);
+}
+
+.checkbox input:checked ~ .checkmark::after {
+  display: block;
+}
+
+.checkbox:hover input ~ .checkmark {
+  background-color: rgba(0, 255, 255, 0.1);
+}
+
+.edit-opt {
+  cursor: pointer;
+  background: #202124;
+  height: 3.5em;
+  width: 3.5em;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 1000;
+}
+
+.blured {
+  -webkit-filter: blur(4px);
+          filter: blur(4px);
+}
+
+.settings-overlay {
+  display: none;
+  position: absolute;
+  top: 5vh;
+  left: 35vw;
+  width: 64vw;
+  height: 93vh;
+  background: #202124e6;
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: .5em;
+  padding: .7em;
+  -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.settings-overlay .listing {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.settings-overlay .listing .li {
+  cursor: pointer;
+  padding-bottom: .3em;
+  padding-left: 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 20px;
+}
+
+.settings-overlay .listing .li svg g {
+  fill: aqua;
+}
+
+.settings-overlay .listing .li .label {
+  padding-left: .5em;
+}
+
+.settings-overlay .listing .li:hover {
+  color: aqua;
+}
+
+.settings-overlay .more {
+  height: 100%;
+  border-left: 3px solid rgba(0, 255, 255, 0.308);
+}
+
+.app-notification {
+  display: none;
+  position: absolute;
+  right: 3em;
+  top: 90vh;
+  background-color: #202124;
+  padding: .5em 1em;
+  border-radius: 8px;
+  z-index: 10000;
+  -webkit-box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  font-weight: 800;
+  -ms-grid-columns: 1fr 5fr;
+      grid-template-columns: 1fr 5fr;
+}
+
+.app-notification .act {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.app-notification .notif {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.app-notification .notif .close-btn {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: -1.0em;
+  background-color: #202124;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 0 18px rgba(92, 92, 92, 0.3);
+          box-shadow: 0 0 18px rgba(92, 92, 92, 0.3);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.no-schedule {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-70%) translateY(-75%);
+          transform: translateX(-70%) translateY(-75%);
+}
+
+.no-schedule img {
+  height: 45vh;
+  opacity: 0.1;
+}
+
+.show-today {
+  position: absolute;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  top: 16vh;
+  right: 35vw;
+  font-weight: 800;
+  padding: .3em 1em;
+  background: #202124;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+}
+
+.show-today .goto {
+  background-color: #202124;
+  -webkit-box-shadow: 0 0 15px #00ffff2e;
+          box-shadow: 0 0 15px #00ffff2e;
+  border-radius: 50%;
+  -webkit-transform: translateY(-0.8em) translateX(20px);
+          transform: translateY(-0.8em) translateX(20px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.show-today .info {
+  padding-right: 0.3em;
+}
+
+.show-year {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 40px;
+  font-weight: 900;
+  text-orientation: upright;
+  -webkit-writing-mode: vertical-rl;
+      -ms-writing-mode: tb-rl;
+          writing-mode: vertical-rl;
+  opacity: 0.1;
 }
 /*# sourceMappingURL=style.css.map */

@@ -1,14 +1,20 @@
 {
   "name": "calendar",
   "version": "1.0.0",
-  "description": "calendar for artists inspired by austin kleon's steal like an artist book",
+  "description": "calendar for artists inspired by austin kleon's steal like an artist",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "lint": "./node_modules/.bin/eslint ./assets/js/"
   },
   "author": "cliff manyara",
   "license": "MIT",
   "dependencies": {
-    "electron": "^9.0.3"
+    "electron": "^9.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1"
   }
 }

@@ -11,6 +11,7 @@
     .action {
         padding: 0 .5em;
         font-weight: 800;
+        cursor: pointer;
 
         svg {
             height: 1.7rem !important;
@@ -30,10 +31,11 @@
             font-weight: 900;
             font-size: 1.1rem;
         }
+
         &.action-btn {
             background-color: rgba(0, 255, 255, 0.01);
             padding: .4em 1.3em;
-            margin:0 .4em;
+            margin: 0 .4em;
             border-radius: .4em;
             border-bottom-right-radius: 0em;
             border-bottom-left-radius: 0em;
@@ -56,11 +58,11 @@
     }
 }
 
-@mixin entry{
+@mixin entry {
     position: relative;
     width: 97%;
     background: #2f2f2f;
-    min-height: 15vh;
+    min-height: 20vh;
     border-radius: .7em;
     padding: .5em 1em;
     font-weight: 700;
@@ -77,6 +79,7 @@
     .note {
         outline: none;
         line-height: 1.5em;
+        min-height: 3em;
     }
 
     .add {
@@ -85,6 +88,7 @@
         right: 0;
         margin: 1em;
         opacity: 0.7;
+        margin-top: 2em;
         cursor: pointer;
     }
 
@@ -96,7 +100,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        border: 2px solid rgba($color: #ffffff, $alpha: 0.2);
+        border: 2px solid rgba($color: #ffffff, $alpha: 0.03);
         background-color: #2b2b2b;
 
         position: absolute;
@@ -124,8 +128,10 @@
             color: rgba(0, 255, 255, 0.582);
         }
     }
+
     &.flex {
         display: flex;
+
         .avatar {
             position: relative;
             width: 10% !important;
@@ -135,7 +141,71 @@
             justify-content: center;
         }
     }
+
     &.addentry {
+        padding: 1em;
         margin-bottom: 120px;
+        display: flex;
+        flex-direction: column;
+
+        input,
+        textarea {
+            font-family: 'Poiret one';
+            font-size: 24px;
+            background: transparent;
+            outline: none;
+            border: none;
+            color: #ffffff;
+
+            &::placeholder {
+                font-family: 'Poiret one';
+                color: aqua;
+                font-weight: 800;
+            }
+        }
+    }
+
+    .range-duration {
+        // position: absolute;
+        // bottom: 0;
+        // height: 4em;
+        // width: 100%;
+
+        input {
+            width: 95%;
+        }
+
+        .options {
+            position: relative;
+            margin-top: 1em;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            align-items: center;
+
+            .start {
+                position: relative;
+            }
+
+            .more-settings {
+                position: relative;
+
+                svg {
+                    position: absolute;
+                    top: -15px;
+                    right: 0;
+
+                }
+            }
+        }
+
+        #start-time-input {
+            width: 100%;
+            font-size: 16px;
+            font-weight: 800;
+
+            &::placeholder {
+                opacity: 0.3;
+            }
+        }
     }
 }
