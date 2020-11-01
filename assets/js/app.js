@@ -77,25 +77,12 @@ const createSchedule = (title, note, date, duration, start = '') => {
     }
 
     // create the timeline
-    // sort timeline not now
     const last_event_time = get_last_event()
     if (last_event_time === 'first') {
         event_queue_data.timeline = string_time(date)
     } else {
-        // detect previous had changes and detach it
         const _add_duration = mins_to_hrs(last_event_time.duration)
         event_queue_data.timeline = add_time(last_event_time.timeline, _add_duration)
-
-        // add to v2
-        // if (event_queue[event_queue.length - 1].elem.classList[1] === 'changes') {
-        //     console.log('previous event had a custom start point')
-        //     const last_event_wchanges = event_queue[event_queue.length - 1]
-        //     // dead assumption always w/no changes
-        //     const last_w_no_changes = event_queue[event_queue.indexOf(last_event_wchanges) - 1]
-        //     const _add_duration_ = mins_to_hrs(last_w_no_changes.duration)
-        //     event_queue_data.timeline = add_time(last_w_no_changes.timeline, _add_duration_)
-        //     // use previous duration before changes
-        // }
     }
 
     const timefrac = (xtime) => {
@@ -104,61 +91,40 @@ const createSchedule = (title, note, date, duration, start = '') => {
         return _hours_ + _mins_
     }
 
-    if (start !== '') {
-        goal.classList += ' changes';
-        const start_timeline_fmt = `${start.substring(0, 2)}:${start.substring(2, 4)}:00`
-        event_queue_data.timeline = start_timeline_fmt
-        const timelines_array = event_queue.map((ev) => {
-            const _time_frac = timefrac(ev)
-            return {
-                value: _time_frac,
-                element: ev.elem,
-            }
-        })
-        timelines_array.sort((a, b) => a.value - b.value)
+    const e_time = (xtime) => `${xtime.split(':')[0]}:${xtime.split(':')[1]}`
 
-        const now_frac = Number(start_timeline_fmt.split(':')[0]) + Number(start_timeline_fmt.split(':')[1] / 60)
-        const timelines_array_times = timelines_array.map((_ta) => Object.values(_ta)[0])
-        let closest
-        if (timelines_array_times.length === 0) {
-            closest = '00:00:00'
-        } else {
-            // eslint-disable-next-line max-len
-            closest = timelines_array_times.reduce((prev, curr) => (Math.abs(curr - now_frac) < Math.abs(prev - now_frac) ? curr : prev));
+    goal.classList += ' changes';
+    const start_timeline_fmt = `${start.substring(0, 2)}:${start.substring(2, 4)}:00`
+    event_queue_data.timeline = start_timeline_fmt
+    goal.innerHTML = _template(event_queue_data.timeline.split(':')[0], e_time(event_queue_data.timeline), title, note);
+    event_queue_data.elem = goal
+    event_queue.push(event_queue_data)
+    // sort function here at append
+    const timelines_array = event_queue.map((ev) => {
+        const _time_frac = timefrac(ev)
+        return {
+            value: _time_frac,
+            element: ev.elem,
         }
-        let last_ev_timeline;
-        if (event_queue.length === 0) {
-            // console.log(event_queue.length, event_queue)
-            last_ev_timeline = event_queue_data
-        } else {
-            last_ev_timeline = timefrac(event_queue[event_queue.length - 1])
-        }
-        // console.log(last_ev_timeline)
-        if (last_ev_timeline > now_frac) {
-            const elem_after = timelines_array.filter((_ta) => {
-                if (_ta.value === closest) {
-                    return _ta
-                }
-            })[0]
-
-            // console.log(elem_after.element)
-            const e_time = (xtime) => `${xtime.split(':')[0]}:${xtime.split(':')[1]}`
-            goal.innerHTML = _template(event_queue_data.timeline.split(':')[0], e_time(event_queue_data.timeline), title, note);
-            goals.insertBefore(goal, elem_after.element.nextSibling)
-            // insert after kinda kreepy
-        } else {
-            const e_time = (xtime) => `${xtime.split(':')[0]}:${xtime.split(':')[1]}`
-            goal.innerHTML = _template(event_queue_data.timeline.split(':')[0], e_time(event_queue_data.timeline), title, note);
-            goals.appendChild(goal)
-            event_queue_data.elem = goal
-            event_queue.push(event_queue_data)
-        }
-    } else {
-        const e_time = (xtime) => `${xtime.split(':')[0]}:${xtime.split(':')[1]}`
-        goal.innerHTML = _template(event_queue_data.timeline.split(':')[0], e_time(event_queue_data.timeline), title, note);
+    })
+    const timelines_array_times = timelines_array.map((_ta) => Object.values(_ta)[0])
+    insertionSort(timelines_array_times)
+    // find the closest from the array
+    const now_frac = Number(start_timeline_fmt.split(':')[0]) + Number(start_timeline_fmt.split(':')[1] / 60)
+    const insert_after = timelines_array_times[timelines_array_times.indexOf(now_frac) + 1]
+    if (insert_after === undefined) {
         goals.appendChild(goal)
-        event_queue_data.elem = goal
-        event_queue.push(event_queue_data)
+    } else {
+        // insert before
+        // console.log(`inserting ${now_frac} before ${insert_after}`)
+        const elem_after = timelines_array.filter((_ta) => {
+            if (_ta.value === insert_after) {
+                return _ta
+            }
+            return false
+        })[0]
+        // console.log(elem_after.element)
+        goals.insertBefore(goal, elem_after.element)
     }
 }
 
@@ -453,25 +419,32 @@ const Logbook = (date = '') => {
 
     log_save.addEventListener('click', () => {
         // filename: date
-        console.log(`saving ${today}-${monthNames[month]}-${year}.html`)
         const _save_data = {
             date: `${today}-${monthNames[month]}-${year}`,
             html: notebook.innerHTML,
         }
-
-        ipcSend('save-html', _save_data)
+        // prevent saving for the future
+        if (RESET_DAY) {
+            Appnotification('can not save in past or future events')
+        } else {
+            // console.log(`saving ${today}-${monthNames[month]}-${year}.html`)
+            ipcSend('save-html', _save_data)
+        }
     })
 
-    document.querySelector('.edit-opt').addEventListener('click', () => {
-        console.log('reveal opts')
-        edit_options.style.opacity = '1'
-        edit_options.style.pointerEvents = 'auto'
+    // create autosave
+    notebook.addEventListener('keyup', () => {
+        if ('show_banner' in notebook.classList) {
+            console.log('show banner is there')
+            notebook.classList.remove('show_banner')
+        }
+        log_save.click()
     })
 
-    notebook.addEventListener('mousedown', () => {
-        edit_options.style.opacity = '0'
-        edit_options.style.pointerEvents = 'none'
-    })
+    // notebook.addEventListener('mousedown', () => {
+    //     edit_options.style.opacity = '0'
+    //     edit_options.style.pointerEvents = 'none'
+    // })
 }
 
 // initiate switch tab
@@ -515,7 +488,6 @@ actionbtns.forEach((actionbtn) => {
 const addNewEntry = () => {
     const entry_title = document.querySelector('.entry.addentry .title')
     const entry_note = document.querySelector('.entry.addentry .note')
-    // const entry_duration = document.querySelector('.duration_output .duration')
     const entry_duration = document.querySelector('#output')
     const entry_start = document.querySelector('#start-time-input').value
 
@@ -529,12 +501,7 @@ const addNewEntry = () => {
         note: entry_note.innerHTML,
         date: entry_date,
         duration: entry_duration.dataset.duration,
-    }
-
-    if (entry_start !== '') {
-        entry_data.entry_start = entry_start
-    } else {
-        entry_data.entry_start = ''
+        entry_start,
     }
 
     // invalid start time
@@ -554,14 +521,12 @@ const addNewEntry = () => {
             Appnotification('invalid start time need 24hr fmt')
         } else if (Number(starttime) < Number(now) && RESET_DAY === undefined) {
             console.log(RESET_DAY)
-            // if (!RESET_DAY) {
             Appnotification('cannot add event in the past')
-            // }
         } else {
             Appnotification('new entry added')
             // reset the values
-            entry_title.innerHTML = 'add new'
-            entry_note.innerHTML = 'short note ...'
+            entry_title.innerHTML = ''
+            entry_note.innerHTML = ''
             entry_duration.value = 30
             ipcSend('calendar_entry', entry_data)
         }
@@ -669,13 +634,17 @@ const output = document.querySelector('#output')
 slider.addEventListener('input', () => {
     let out_value = slider.value
     let units = 'min'
+    let output_template = `<span class="duration">${out_value}</span>${units}`
     if (out_value > 60) {
         out_value /= 60
         units = 'hrs'
+        const _hrs_ = `${out_value.toString().split('.')[0]}`
+        const _mins_ = slider.value - (Number(_hrs_) * 60)
+        out_value = `${_hrs_} ${_mins_}'`
+        output_template = `<span class="duration">${_hrs_} hrs</span>${_mins_} mins`
     }
 
     output.dataset.duration = slider.value
-    const output_template = `<span class="duration">${Math.round(out_value)}</span>${units}`
     output.innerHTML = output_template
 })
 
@@ -925,16 +894,10 @@ const save_to_form = document.querySelector('#save-dot-entry')
 const save_dot_entry = () => {
     const _task = document.querySelector('#task_field').value
     const _duration = document.querySelector('#duration_field').value
-    // const _auto_entry = document.querySelector('#auto_add_field').checked
-    // const _remind = document.querySelector('#remind_field').checked
-    // const _remind_time = document.querySelector('#remind_time_field').value
     let _data = {
         start: new Date(),
         task: _task,
         duration: _duration,
-        // auto_entry: _auto_entry,
-        // reminder: _remind,
-        // reminder_time: _remind_time,
     }
 
     if (_task !== '') {
@@ -973,3 +936,19 @@ const save_dot_entry = () => {
 save_to_form.addEventListener('click', save_dot_entry)
 
 document.querySelector('#currentHr').innerHTML = new Date().getHours()
+
+const insertionSort = (inputArr) => {
+    let n = inputArr.length;
+    for (let i = 1; i < n; i++) {
+        // Choosing the first element in our unsorted subarray
+        let current = inputArr[i];
+        // The last element of our sorted subarray
+        let j = i - 1;
+        while ((j > -1) && (current < inputArr[j])) {
+            inputArr[j + 1] = inputArr[j];
+            j--;
+        }
+        inputArr[j + 1] = current;
+    }
+    return inputArr;
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>calendar</title>
+    <title>artist's calendar</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
     <link rel="stylesheet" href="./assets/css/perfect-scrollbar.css">
     <link rel="stylesheet" href="./assets/css/swiper.min.css">
@@ -16,8 +16,7 @@
                 <img src="./assets/icons/png/cal_x.png" alt="">
             </div>
             <div class="right-menu">
-                <!-- make minimal till v2 -->
-                <div class="menu  frame-action" id="menu">
+                <div class="menu  frame-action" id="menu" style="display: none;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
                         <line x1="8" y1="152" x2="424" y2="152"
                             style="fill:none;stroke:rgb(255, 255, 255);stroke-linecap:round;stroke-miterlimit:10;stroke-width:48px" />
@@ -208,25 +207,10 @@
                                 <h1 class="date"></h1>
                             </div>
                         </div>
-                        <div class="notebook" contenteditable='true' placeholder='what happened today...'
+                        <div class="notebook" placeholder='what happened today...' contenteditable='true'
                             spellcheck="false"></div>
                     </div>
                     <div class="actions">
-                        <div class="edit-opt">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g id="edit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <g id="7" transform="translate(4.000000, 4.000000)" fill="#ffffff"
-                                        fill-rule="nonzero">
-                                        <path
-                                            d="M12.210938,0 C12.423437,0 12.635781,0.0830469 12.800781,0.2480469 L14.75,2.1972656 C15.08,2.5272656 15.08,3.0489063 14.75,3.3789062 L13.109375,5.0078125 L9.9902344,1.8886719 L11.619141,0.2480469 C11.784141,0.0830469 11.998438,0 12.210938,0 Z M11.4134804,1.88394507 L13.1125153,3.59454855 L13.924415,2.78945699 L12.2181199,1.07220492 L11.4134804,1.88394507 Z"
-                                            id="Combined-Shape"></path>
-                                        <path
-                                            d="M8.8691406,3.0078125 L11.990234,6.1289062 L4.109375,14.007812 L0.99023438,14.007812 L0.99023438,10.888672 L8.8691406,3.0078125 Z M2.00672844,11.2820257 L2.00672844,13.0375609 L3.72207646,13.0375609 L10.5956322,6.12173471 L8.88250187,4.43051245 L2.00672844,11.2820257 Z"
-                                            id="Combined-Shape"></path>
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
                         <div class="edit-options" id="edit-options">
                             <div class="heading btn" id="heading">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -281,7 +265,7 @@
                             </div>
                         </div>
                         <div class="right-menu">
-                            <div class="action" id="photo-upload">
+                            <div class="action" id="photo-upload" style="display: none;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
                                     <path
                                         d="M350.54,148.68l-26.62-42.06C318.31,100.08,310.62,96,302,96H210c-8.62,0-16.31,4.08-21.92,10.62l-26.62,42.06C155.85,155.23,148.62,160,140,160H80a32,32,0,0,0-32,32V384a32,32,0,0,0,32,32H432a32,32,0,0,0,32-32V192a32,32,0,0,0-32-32H373C364.35,160,356.15,155.23,350.54,148.68Z"
@@ -318,7 +302,7 @@
                                     <p id="output" class="duration_output" data-duration="30"> <span
                                             class="duration">30</span>min</p>
                                     <div class="start">
-                                        <input type="text" placeholder="start :2200 (24hr)" id="start-time-input">
+                                        <input type="text" placeholder="start time (24hr)" id="start-time-input">
                                     </div>
                                     <div class="more-settings">
                                         <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
