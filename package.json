@@ -1,18 +1,32 @@
 {
-  "name": "calendar",
+  "name": "artistcalendar",
   "version": "1.0.0",
   "description": "calendar for artists inspired by austin kleon's steal like an artist",
   "main": "main.js",
+  "build": {
+    "appId": "com.crypticwasp.artist_calendar",
+    "target": [
+      "AppImage",
+      "deb",
+      "rpm",
+      "snap"
+    ],
+    "icon": "assets/icons/png/cal_X.png",
+    "linux": {
+      "category": "Utility"
+    }
+  },
   "scripts": {
     "start": "electron .",
-    "lint": "./node_modules/.bin/eslint ./assets/js/"
+    "lint": "./node_modules/.bin/eslint ./assets/js/",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "cliff manyara",
   "license": "MIT",
-  "dependencies": {
-    "electron": "^9.3.2"
-  },
   "devDependencies": {
+    "electron": "^9.3.2",
+    "electron-builder": "^22.9.1",
     "eslint": "^7.10.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.1"

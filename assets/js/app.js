@@ -440,11 +440,6 @@ const Logbook = (date = '') => {
         }
         log_save.click()
     })
-
-    // notebook.addEventListener('mousedown', () => {
-    //     edit_options.style.opacity = '0'
-    //     edit_options.style.pointerEvents = 'none'
-    // })
 }
 
 // initiate switch tab

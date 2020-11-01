@@ -1,0 +1,10 @@
+{
+    "dest": "dist/installers/",
+    "icon": "assets/icons/png/cal_x.png",
+    "categories": [
+        "Utility"
+    ],
+    "lintianOverrides": [
+        "changelog-file-missing-in-native-package"
+    ]
+}

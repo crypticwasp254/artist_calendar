@@ -34,6 +34,7 @@ app.on('ready', () => {
         icon: path.join(__dirname, 'assets', 'icons', 'png', 'cal_x.png'),
         minWidth: 1000,
         webPreferences: {
+            devTools: false,
             nodeIntegration: true,
             worldSafeExecuteJavaScript: true,
             contextIsolation: false,
@@ -135,44 +136,18 @@ ipcMain.on('save-html', (e, item) => {
     fs.writeFile(_save_file, item.html, (err) => {
         if (err) {
             console.log(err)
-        } else {
-            console.log('saved')
         }
+        // else {
+        //     console.log('saved')
+        // }
     })
 })
-
-// function dbSave(key, data) {
-//     let db;
-//     fs.readFile(outfile, 'utf8', (err, res) => {
-//         if (err) console.error(err)
-//         db = JSON.parse(res)
-//         db[key].push(data)
-//         fs.writeFile(outfile, JSON.stringify(db), (write_err, res) => {
-//             if (write_err) {
-//                 console.log(write_err)
-//             }
-//             console.log('saved!')
-//         })
-//     })
-// }
 
 ipcMain.on('dot_config', (e, item) => {
     // save config and data at save
     // saveConfig('dots', item)
     Save('config', item)
 })
-
-// const conf = path.join(__dirname, 'save', 'config.json');
-// function saveConfig(key, data) {
-//     fs.readFile(conf, 'utf8', (err, res) => {
-//         const db = JSON.parse(res)
-//         db[key].push(data)
-//         fs.writeFile(conf, JSON.stringify(db), (e, res) => {
-//             if (e) console.log(e)
-//             console.log('super saved')
-//         })
-//     })
-// }
 
 const Cwrite = (file, data) => {
     fs.writeFile(file, data, (e) => {
