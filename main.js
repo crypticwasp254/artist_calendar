@@ -35,6 +35,8 @@ app.on('ready', () => {
         minWidth: 1000,
         webPreferences: {
             nodeIntegration: true,
+            worldSafeExecuteJavaScript: true,
+            contextIsolation: false,
         },
     })
     MainWindow.maximize()

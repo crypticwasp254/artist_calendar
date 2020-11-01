@@ -21,6 +21,11 @@ html {
   src: url("../fonts/PermanentMarker-Regular.ttf");
 }
 
+@font-face {
+  font-family: 'Quicksandx';
+  src: url("../fonts/Quicksand-VariableFont_wght.ttf");
+}
+
 body {
   background: #2b2b2b;
   color: #ffffff;
@@ -30,6 +35,12 @@ body {
   width: 100%;
   -webkit-font-smoothing: antialiased;
   -webkit-user-select: none;
+}
+
+[contenteditable=true]:empty:before {
+  content: attr(placeholder);
+  pointer-events: none;
+  opacity: 0.3;
 }
 
 header {
@@ -287,10 +298,6 @@ main .side {
   max-height: 37vh;
   height: 37vh;
   background-color: #2f2f2f;
-  background-image: url("../icons/png/icon.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: 230px 0px;
   background-blend-mode: overlay;
   -webkit-box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
           box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
@@ -506,6 +513,15 @@ svg {
   padding-left: 2em;
 }
 
+.view-schedule .goals .goal .real-time {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.8em;
+  font-family: 'Quicksandx';
+  opacity: 0.3;
+  margin-bottom: 0.4em;
+}
+
 .view-schedule .goals .goal .timeofday {
   height: 3em;
   width: 3em;
@@ -526,8 +542,8 @@ svg {
   position: absolute;
   top: 50%;
   left: 0;
-  -webkit-transform: translateY(-50%) translateX(-100%);
-          transform: translateY(-50%) translateX(-100%);
+  -webkit-transform: translateY(-80%) translateX(-100%);
+          transform: translateY(-80%) translateX(-100%);
   z-index: 75000;
   -webkit-transition: all 500ms ease;
   transition: all 500ms ease;
@@ -591,6 +607,21 @@ svg {
   padding-top: 0em;
 }
 
+.view-schedule .goals .goal:first-child {
+  margin-top: 1em;
+}
+
+.view-schedule .goals .goal.changes .real-time {
+  color: #00ffff;
+}
+
+.view-schedule .goals .goal.changes .progress {
+  -webkit-transform: translateX(-1.5em) translateY(-1em);
+          transform: translateX(-1.5em) translateY(-1em);
+  height: 30%;
+  background: #2b2b2b;
+}
+
 .dots {
   height: 100%;
   width: 90%;
@@ -603,6 +634,9 @@ svg {
   display: grid;
   -ms-grid-columns: (1fr)[6];
       grid-template-columns: repeat(6, 1fr);
+  -ms-grid-rows: min-content;
+      grid-template-rows: -webkit-min-content;
+      grid-template-rows: min-content;
   grid-gap: .8em;
   padding: .3em .5em;
   height: 65vh;
@@ -612,6 +646,7 @@ svg {
 .dots .tab-content .d {
   position: relative;
   min-height: 5rem;
+  max-block-size: 5rem;
   cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -667,6 +702,22 @@ svg {
 .dots .tab-content .d.active-d .index, .dots .tab-content .d:hover .index {
   color: cyan;
   opacity: .6;
+}
+
+.dots .tab-content.show_banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(../images/timeline.svg);
+  background-size: 450px;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1;
+  -webkit-filter: opacity(50%);
+          filter: opacity(50%);
 }
 
 .dots .actions {
@@ -765,7 +816,7 @@ svg {
   z-index: 1000;
   border-radius: 6px;
   padding: .5em;
-  height: 33vh;
+  height: 18vh;
   width: 25vw;
   font-weight: 800;
   -webkit-box-shadow: 0 0 10px 0px #2b2b2bcb;
@@ -800,16 +851,24 @@ svg {
 
 .dots .add-overlay .save-actions button {
   border: none;
-  height: 100%;
-  width: 100%;
-  padding: .5em .9em;
+  padding: .1em .9em;
   border-radius: .2em;
   font-family: 'Poiret one';
   font-weight: 800;
   font-size: 18px;
-  background-color: aqua;
+  background-color: rgba(0, 255, 255, 0.418);
   outline: none;
   cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  float: right;
 }
 
 .logbook {
@@ -861,6 +920,22 @@ svg {
      object-fit: cover;
   border-radius: .3em;
   margin-top: .5em;
+}
+
+.logbook .add-area .notebook.show_banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(../images/noteboo.svg);
+  background-size: 450px;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1;
+  -webkit-filter: opacity(50%);
+          filter: opacity(50%);
 }
 
 .logbook .edit-options {
@@ -1664,7 +1739,7 @@ svg {
 
 .no-schedule img {
   height: 45vh;
-  opacity: 0.1;
+  opacity: 0.5;
 }
 
 .show-today {

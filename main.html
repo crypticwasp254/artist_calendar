@@ -16,6 +16,7 @@
                 <img src="./assets/icons/png/cal_x.png" alt="">
             </div>
             <div class="right-menu">
+                <!-- make minimal till v2 -->
                 <div class="menu  frame-action" id="menu">
                     <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
                         <line x1="8" y1="152" x2="424" y2="152"
@@ -53,8 +54,6 @@
             <div class="dateinfo">
             </div>
             <div class="username">
-                <!-- add svg time show -->
-                <!-- good morning , <span class="name">clifford</span> -->
             </div>
         </div>
     </header>
@@ -162,34 +161,28 @@
                     <div class="tab-content grid dots-area" id="grid-dots" style="padding-left: 3em;">
                     </div>
                     <div class="add-overlay">
-                        <input type="text" placeholder="new task" id="task_field">
+                        <input type="text" placeholder="task" id="task_field">
                         <div class="input-container">
-                            <input type="text" placeholder="120 in (days)" id="duration_field">
+                            <input type="text" placeholder="duration (days)" id="duration_field">
                         </div>
                         <div class="more-opts">
-                            <div class="auto-add">
-                                <label class="checkbox">
-                                    <input type="checkbox" name="auto-add" id="auto_add_field">
-                                    <span class="checkmark"></span>
-                                    auto add to log book
-                                </label>
-                            </div>
-                            <label class="checkbox">
-                                <input type="checkbox" name="remind" id="remind_field">
-                                <span class="checkmark"></span>
-                                remind me daily
-                            </label>
-                            <div class="remind-time">
-                                <input type="text" name="" id="remind_time_field" placeholder="1800 in (24hr)">
-                            </div>
                             <div class="save-actions">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"
+                                <button id="save-dot-entry">add
+                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"
+                                        viewBox="0 0 512 512" id="save-dot-entry">
+                                        <line x1="256" y1="112" x2="256" y2="400"
+                                            style="fill:none;stroke:#202124;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                                        <line x1="400" y1="256" x2="112" y2="256"
+                                            style="fill:none;stroke:#202124;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
+                                    </svg> -->
+                                </button>
+                                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"
                                     id="save-dot-entry">
                                     <line x1="256" y1="112" x2="256" y2="400"
                                         style="fill:none;stroke:aqua;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
                                     <line x1="400" y1="256" x2="112" y2="256"
                                         style="fill:none;stroke:aqua;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" />
-                                </svg>
+                                </svg> -->
                             </div>
                         </div>
                     </div>
@@ -215,8 +208,8 @@
                                 <h1 class="date"></h1>
                             </div>
                         </div>
-                        <div class="notebook" contenteditable spellcheck="false">
-                        </div>
+                        <div class="notebook" contenteditable='true' placeholder='what happened today...'
+                            spellcheck="false"></div>
                     </div>
                     <div class="actions">
                         <div class="edit-opt">
@@ -315,14 +308,15 @@
                     <div class="sched-area">
                         <div class="timeline"></div>
                         <div class="entry addentry">
-                            <div class="timeofday" id="currentHr">12</div>
-                            <h1 class="title" id="entry" contenteditable placeholder='clif' spellcheck="false">new entry
-                            </h1>
-                            <div class="note" id="entry" contenteditable spellcheck="false">entry note
-                            </div>
+                            <div class="timeofday" id="currentHr"></div>
+                            <h1 class="title" id="entry" placeholder='new entry title' contenteditable='true'
+                                spellcheck="false"></h1>
+                            <div class="note" id="entry" placeholder='entry note' contenteditable='true'
+                                spellcheck="false"></div>
                             <div class="range-duration">
                                 <div class="options">
-                                    <p id="output" class="duration_output"> <span class="duration">30</span>min</p>
+                                    <p id="output" class="duration_output" data-duration="30"> <span
+                                            class="duration">30</span>min</p>
                                     <div class="start">
                                         <input type="text" placeholder="start :2200 (24hr)" id="start-time-input">
                                     </div>
@@ -344,7 +338,7 @@
                                         </svg>
                                     </div>
                                 </div>
-                                <input type="range" name="" id="slider" min="1" max="100" value="30">
+                                <input type="range" name="" id="slider" min="1" max="1440" value="30">
                             </div>
                             <div class="add" id='addschedule'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
@@ -572,5 +566,3 @@
 </body>
 
 </html>
-
-no video in version 1

@@ -22,6 +22,11 @@ html {
     src: url('../fonts/PermanentMarker-Regular.ttf');
 }
 
+@font-face {
+    font-family: 'Quicksandx';
+    src: url('../fonts/Quicksand-VariableFont_wght.ttf');
+}
+
 body {
     background: #2b2b2b;
     color: #ffffff;
@@ -31,6 +36,13 @@ body {
     width: 100%;
     -webkit-font-smoothing: antialiased;
     -webkit-user-select: none;
+}
+
+// content editable place holde
+[contenteditable=true]:empty:before {
+    content: attr(placeholder);
+    pointer-events: none;
+    opacity: 0.3;
 }
 
 header {
@@ -246,10 +258,10 @@ main {
     max-height: 37vh;
     height: 37vh;
     background-color: #2f2f2f;
-    background-image: url('../icons/png/icon.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: 230px 0px;
+    // background-image: url('../icons/png/icon.png');
+    // background-repeat: no-repeat;
+    // background-size: contain;
+    // background-position: 230px 0px;
     background-blend-mode: overlay;
     box-shadow: 0 0 10px rgba(32, 33, 36, 0.116);
     overflow: hidden;
@@ -448,9 +460,6 @@ svg {
     }
 
     .goals {
-        // .changes {
-        //     background: red;
-        // }
 
         .goal {
             position: relative;
@@ -459,6 +468,15 @@ svg {
             margin-bottom: 9rem;
             margin-left: 1.5rem;
             padding-left: 2em;
+
+            .real-time {
+                color: #ffffff;
+                font-weight: 600;
+                font-size: 0.8em;
+                font-family: 'Quicksandx';
+                opacity: 0.3;
+                margin-bottom: 0.4em;
+            }
 
             .timeofday {
                 height: 3em;
@@ -474,7 +492,7 @@ svg {
                 position: absolute;
                 top: 50%;
                 left: 0;
-                transform: translateY(-50%) translateX(-100%);
+                transform: translateY(-80%) translateX(-100%);
                 z-index: 75000;
 
                 span#hr {
@@ -541,6 +559,22 @@ svg {
             div {
                 padding-top: 0em;
             }
+
+            &:first-child {
+                margin-top: 1em;
+            }
+
+            &.changes {
+                .real-time {
+                    color: #00ffff;
+                }
+
+                .progress {
+                    transform: translateX(-1.5em)translateY(-1em);
+                    height: 30%;
+                    background: #2b2b2b;
+                }
+            }
         }
     }
 }
@@ -555,6 +589,7 @@ svg {
     .tab-content {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: min-content;
         grid-gap: .8em;
         padding: .3em .5em;
         height: 65vh;
@@ -563,6 +598,7 @@ svg {
         .d {
             position: relative;
             min-height: 5rem;
+            max-block-size: 5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -605,6 +641,21 @@ svg {
                 }
             }
         }
+
+        &.show_banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: url(../images/timeline.svg);
+            background-size: 450px;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: -1;
+            filter: opacity(50%);
+        }
     }
 
     .actions {
@@ -639,7 +690,7 @@ svg {
         z-index: 1000;
         border-radius: 6px;
         padding: .5em;
-        height: 33vh;
+        height: 18vh;
         width: 25vw;
         font-weight: 800;
         box-shadow: 0 0 10px 0px #2b2b2bcb;
@@ -672,16 +723,20 @@ svg {
 
             button {
                 border: none;
-                height: 100%;
-                width: 100%;
-                padding: .5em .9em;
+                // height: 100%;
+                // width: 100%;
+                padding: .1em .9em;
                 border-radius: .2em;
                 font-family: 'Poiret one';
                 font-weight: 800;
                 font-size: 18px;
-                background-color: aqua;
+                background-color: rgba(0, 255, 255, 0.418);
                 outline: none;
                 cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                float: right;
             }
         }
     }
@@ -737,6 +792,21 @@ svg {
                 object-fit: cover;
                 border-radius: .3em;
                 margin-top: .5em;
+            }
+
+            &.show_banner::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background: url(../images/noteboo.svg);
+                background-size: 450px;
+                background-repeat: no-repeat;
+                background-position: center;
+                z-index: -1;
+                filter: opacity(50%);
             }
         }
     }
@@ -1152,7 +1222,7 @@ svg {
     // background-image: url("../images/cal_sched.svg");
     img {
         height: 45vh;
-        opacity: 0.1;
+        opacity: 0.5;
     }
 }
 

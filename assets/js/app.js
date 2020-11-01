@@ -8,7 +8,6 @@ const os = require('os');
 
 const { ipcRenderer } = electron;
 let active_activity;
-// let data;
 const event_queue = [];
 const ipcSend = (command, payload) => ipcRenderer.send(command, payload)
 const calendar = new Calendar()
@@ -34,14 +33,17 @@ const createSchedule = (title, note, date, duration, start = '') => {
     const goal = document.createElement('div')
     goal.classList = 'goal';
     goal.dataset.duration = duration;
-    const _template = (template_time, template_title, template_note) => `
+    /* html */
+    const _template = (template_time, template_date, template_title, template_note) => `
         <div class="progress"></div>
-            <div class="timeofday">
-                ${template_time}
-            </div>
+        <div class="timeofday">${template_time}</div>
+        <div class="real-time">${template_date}</div>
         <h3 class="title">${template_title}</h3>
         <p class="description">${template_note}</p>
     `
+
+    // time format helper
+    // const f_time = (xtime) => `${new Date(xtime).getHours()}:${new Date(xtime).getMinutes()}`
 
     const add_time = (last, add_duration) => {
         // hr:min:sec
@@ -64,32 +66,100 @@ const createSchedule = (title, note, date, duration, start = '') => {
     const no_schedule = document.querySelector('.no-schedule')
     no_schedule.style.display = 'none';
 
-    goal.innerHTML = _template(new Date(date).getHours(), title, note);
+    // goal.innerHTML = _template(new Date(date).getHours(), date, title, note);
     const margin_bottom = duration * 4
     goal.style.marginBottom = `${margin_bottom}px`
-    goals.appendChild(goal)
-
-    if (start !== '') {
-        goal.classList += ' changes'
-        console.log('changing template', goal)
-    }
 
     // add to event queue
     const event_queue_data = {
         date,
-        elem: goal,
         duration,
     }
 
     // create the timeline
+    // sort timeline not now
     const last_event_time = get_last_event()
     if (last_event_time === 'first') {
         event_queue_data.timeline = string_time(date)
     } else {
+        // detect previous had changes and detach it
         const _add_duration = mins_to_hrs(last_event_time.duration)
         event_queue_data.timeline = add_time(last_event_time.timeline, _add_duration)
+
+        // add to v2
+        // if (event_queue[event_queue.length - 1].elem.classList[1] === 'changes') {
+        //     console.log('previous event had a custom start point')
+        //     const last_event_wchanges = event_queue[event_queue.length - 1]
+        //     // dead assumption always w/no changes
+        //     const last_w_no_changes = event_queue[event_queue.indexOf(last_event_wchanges) - 1]
+        //     const _add_duration_ = mins_to_hrs(last_w_no_changes.duration)
+        //     event_queue_data.timeline = add_time(last_w_no_changes.timeline, _add_duration_)
+        //     // use previous duration before changes
+        // }
     }
-    event_queue.push(event_queue_data)
+
+    const timefrac = (xtime) => {
+        const _hours_ = Number(xtime.timeline.split(':')[0])
+        const _mins_ = Number(xtime.timeline.split(':')[1] / 60)
+        return _hours_ + _mins_
+    }
+
+    if (start !== '') {
+        goal.classList += ' changes';
+        const start_timeline_fmt = `${start.substring(0, 2)}:${start.substring(2, 4)}:00`
+        event_queue_data.timeline = start_timeline_fmt
+        const timelines_array = event_queue.map((ev) => {
+            const _time_frac = timefrac(ev)
+            return {
+                value: _time_frac,
+                element: ev.elem,
+            }
+        })
+        timelines_array.sort((a, b) => a.value - b.value)
+
+        const now_frac = Number(start_timeline_fmt.split(':')[0]) + Number(start_timeline_fmt.split(':')[1] / 60)
+        const timelines_array_times = timelines_array.map((_ta) => Object.values(_ta)[0])
+        let closest
+        if (timelines_array_times.length === 0) {
+            closest = '00:00:00'
+        } else {
+            // eslint-disable-next-line max-len
+            closest = timelines_array_times.reduce((prev, curr) => (Math.abs(curr - now_frac) < Math.abs(prev - now_frac) ? curr : prev));
+        }
+        let last_ev_timeline;
+        if (event_queue.length === 0) {
+            // console.log(event_queue.length, event_queue)
+            last_ev_timeline = event_queue_data
+        } else {
+            last_ev_timeline = timefrac(event_queue[event_queue.length - 1])
+        }
+        // console.log(last_ev_timeline)
+        if (last_ev_timeline > now_frac) {
+            const elem_after = timelines_array.filter((_ta) => {
+                if (_ta.value === closest) {
+                    return _ta
+                }
+            })[0]
+
+            // console.log(elem_after.element)
+            const e_time = (xtime) => `${xtime.split(':')[0]}:${xtime.split(':')[1]}`
+            goal.innerHTML = _template(event_queue_data.timeline.split(':')[0], e_time(event_queue_data.timeline), title, note);
+            goals.insertBefore(goal, elem_after.element.nextSibling)
+            // insert after kinda kreepy
+        } else {
+            const e_time = (xtime) => `${xtime.split(':')[0]}:${xtime.split(':')[1]}`
+            goal.innerHTML = _template(event_queue_data.timeline.split(':')[0], e_time(event_queue_data.timeline), title, note);
+            goals.appendChild(goal)
+            event_queue_data.elem = goal
+            event_queue.push(event_queue_data)
+        }
+    } else {
+        const e_time = (xtime) => `${xtime.split(':')[0]}:${xtime.split(':')[1]}`
+        goal.innerHTML = _template(event_queue_data.timeline.split(':')[0], e_time(event_queue_data.timeline), title, note);
+        goals.appendChild(goal)
+        event_queue_data.elem = goal
+        event_queue.push(event_queue_data)
+    }
 }
 
 const showTodaySchedule = (date) => {
@@ -126,9 +196,13 @@ const showTodaySchedule = (date) => {
 }
 
 const showDots = () => {
-    // read from local storage instead
     const actions = document.querySelector('#dot-actions .right-menu')
     const conf = JSON.parse(localStorage.getItem('config')).config
+    if (conf.length === 0) {
+        document.querySelector('.dots .tab-content').classList += ' show_banner'
+    } else {
+        document.querySelector('.dots .tab-content').classList.remove('show_banner')
+    }
     conf.forEach((_dot) => {
         const _duration = _dot.duration.split(' ')[0]
         const _activity = document.createElement('div')
@@ -141,15 +215,17 @@ const showDots = () => {
     })
 
     create_pins(conf)
-    setTimeout(() => {
-        // initial dots
-        const _a = document.querySelectorAll('.activity')[0]
-        _a.classList += ' active-tab'
-        document.querySelector('#grid-dots').replaceWith(generate_dots(_a.dataset.start, _a.dataset.duration))
+    if (conf.length > 0) {
+        setTimeout(() => {
+            // initial dots
+            const _a = document.querySelectorAll('.activity')[0]
+            _a.classList += ' active-tab'
+            document.querySelector('#grid-dots').replaceWith(generate_dots(_a.dataset.start, _a.dataset.duration))
 
-        new PerfectScrollbar('#grid-dots')
-        Dot()
-    }, 100)
+            new PerfectScrollbar('#grid-dots')
+            Dot()
+        }, 100)
+    }
 }
 
 // startup data from localstorage
@@ -166,7 +242,15 @@ const init = () => {
         Object.keys(read_files).forEach((key) => {
             fs.readFile(read_files[key], 'utf8', (err, res) => {
                 if (err) console.log(err)
-                if (res !== '') {
+                if (res === '') {
+                    // for first time users
+                    console.log(`${key} is empty`)
+                    if (key === 'entries') {
+                        document.querySelector('.no-schedule').style.display = 'block'
+                    } else if (key === 'dots') {
+                        document.querySelector('.dots .tab-content').classList += ' show_banner'
+                    }
+                } else if (res !== '') {
                     // console.log(JSON.parse(res))
                     localStorage.setItem(key, res)
                     done_reading(key)
@@ -206,14 +290,16 @@ const { month } = calendar
 const scroll_to_element = (element, container) => {
     const el = document.querySelector(element)
     const con = document.querySelector(container)
-    const el_offset_top = el.offsetTop
-    const offset = con.getBoundingClientRect().height / 2 - 28
-    anime({
-        targets: con,
-        scrollTop: el_offset_top - offset,
-        duration: 500,
-        easing: 'easeInOutQuart',
-    })
+    if (el) {
+        const el_offset_top = el.offsetTop
+        const offset = con.getBoundingClientRect().height / 2 - 28
+        anime({
+            targets: con,
+            scrollTop: el_offset_top - offset,
+            duration: 500,
+            easing: 'easeInOutQuart',
+        })
+    }
 }
 
 // dots generate
@@ -224,9 +310,8 @@ const generate_dots = (date, duration) => {
     const start_date = new Date(date)
     let event_year = start_date.getFullYear()
     let event_month = start_date.getMonth()
-    // console.log(start_date, duration)
     const _dots = range(1, Number(duration))
-    let dot_start = start_date.getDay()
+    let dot_start = start_date.getDate()
     _dots.forEach(() => {
         // create the dom for replacement
         const _dot_dom = document.createElement('div')
@@ -242,13 +327,17 @@ const generate_dots = (date, duration) => {
             event_month += 1
             const show_next_month = document.createElement('div')
             show_next_month.classList = 'show_next_month'
+            if (event_month === 12) {
+                event_month = 0
+            }
             show_next_month.innerHTML = monthNames[event_month]
             _dot_dom.appendChild(show_next_month)
         }
         // go to next year
         if (event_month > 11) {
             event_year = Number(event_year) + 1
-            event_month = 0
+            // console.log(event_month)
+            // event_month = 0
         }
         _dot_dom.dataset.date = `${dot_start}-${monthNames[event_month]}-${event_year}`;
         const date_index = document.createElement('span')
@@ -273,22 +362,6 @@ const generate_dots = (date, duration) => {
 const Dot = () => {
     const activities = document.querySelectorAll('.activity')
     active_activity = activities[0].dataset.activity
-    const create_existing_dots = () => {
-        const dots = document.querySelectorAll('.d')
-        const dots_data = JSON.parse(localStorage.getItem('dots')).dots
-        dots_data.forEach((dd) => {
-            if (dd.task === active_activity) {
-                dots.forEach((dot) => {
-                    if (dd.date === dot.dataset.date) {
-                        dot.dataset.checked = 'true';
-                        const ex = document.createElement('div')
-                        ex.innerHTML = 'X'
-                        dot.appendChild(ex)
-                    }
-                })
-            }
-        })
-    }
     create_existing_dots()
     // activity tab
     activities.forEach((activity) => {
@@ -298,91 +371,18 @@ const Dot = () => {
         })
     })
 
-    const switch_activity_tab = (activity) => {
-        const _activities = document.querySelectorAll('.activity')
-        document.querySelector('#grid-dots').replaceWith(generate_dots(activity.dataset.start, activity.dataset.duration))
-        new PerfectScrollbar('#grid-dots')
-        const dots = document.querySelectorAll('.d')
-        // scroll_to_element('.active-d', '#grid-dots')
-        _activities.forEach((_act) => _act.classList.remove('active-tab'))
-        activity.classList += ' active-tab'
-        active_activity = activity.dataset.activity
-        create_existing_dots()
-        dots.forEach((dot) => dot.addEventListener('click', () => validateDot(dot)))
-    }
-
-    // add new enty
-    const add_new = document.querySelector('#add-activity')
-    const add_overlay = document.querySelector('.add-overlay')
-    add_new.addEventListener('click', () => {
-        if (add_overlay.dataset.shown === 'true') {
-            add_overlay.dataset.shown = false
-            add_overlay.style.display = 'none'
-            add_new.style = ''
-        } else {
-            add_overlay.dataset.shown = true
-            add_overlay.style.display = 'block'
-            add_new.style.transform = 'rotate(45deg)'
+    const dots = document.querySelectorAll('.d')
+    dots.forEach((dot) => dot.addEventListener('click', () => {
+        if (!dot.dataset.checked) {
+            validateDot(dot)
         }
-    })
-
-    // save to form
-    const save_to_form = document.querySelector('#save-dot-entry')
-    const save_dot_entry = () => {
-        const _task = document.querySelector('#task_field').value
-        const _duration = document.querySelector('#duration_field').value
-        const _auto_entry = document.querySelector('#auto_add_field').checked
-        const _remind = document.querySelector('#remind_field').checked
-        const _remind_time = document.querySelector('#remind_time_field').value
-        let _data = {
-            start: new Date(),
-            task: _task,
-            duration: _duration,
-            auto_entry: _auto_entry,
-            reminder: _remind,
-            reminder_time: _remind_time,
-        }
-
-        if (_task !== '') {
-            ipcSend('dot_config', _data)
-        }
-
-        add_overlay.dataset.shown = false
-        add_overlay.style.display = 'none'
-        add_new.style = ''
-
-        // the new kid
-        const actions = document.querySelector('#dot-actions .right-menu')
-        const _durationx = _data.duration.split(' ')[0]
-        const _activity = document.createElement('div')
-        _activity.classList = 'activity action'
-        _activity.dataset.activity = _data.task
-        _activity.dataset.duration = _durationx
-        _activity.dataset.start = _data.start
-        _activity.textContent = _data.task
-        actions.prepend(_activity)
-
-        // event listeners for ya
-        _activity.addEventListener('click', () => {
-            switch_activity_tab(_activity)
-        })
-
-        // reset
-        _data = null
-        document.querySelector('#task_field').value = ''
-        document.querySelector('#duration_field').value = ''
-        document.querySelector('#auto_add_field').checked = false
-        document.querySelector('#remind_time_field').value = ''
-        document.querySelector('#remind_field').checked = false
-    }
-
-    save_to_form.addEventListener('click', save_dot_entry)
+    }))
 }
 
 const validateDot = (dot) => {
     // mod
     const _today = `${new Date().getDate()}-${monthNames[new Date().getMonth()]}-${new Date().getFullYear()}`
-    if (_today === dot.dataset.date) {
+    if (_today === dot.dataset.date && !dot.dataset.checked) {
         const _cross = document.createElement('div')
         _cross.innerHTML = 'x'
         dot.appendChild(_cross)
@@ -393,6 +393,7 @@ const validateDot = (dot) => {
             task: active_activity,
             exact: 'exact',
         }
+        dot.dataset.checked = true
         const dots_in_local = JSON.parse(localStorage.getItem('dots')).dots
         dots_in_local.push(db_data)
         localStorage.setItem('dots', JSON.stringify({ dots: dots_in_local }))
@@ -413,10 +414,10 @@ const Logbook = (date = '') => {
         if (err) {
             if (err.code === 'ENOENT') {
                 notebook.innerHTML = '';
-                // add icon
-                // console.log('not edited today\'s log')
+                notebook.classList += ' show_banner'
             }
         } else {
+            notebook.classList.remove('show_banner')
             notebook.innerHTML = log;
         }
     })
@@ -514,8 +515,11 @@ actionbtns.forEach((actionbtn) => {
 const addNewEntry = () => {
     const entry_title = document.querySelector('.entry.addentry .title')
     const entry_note = document.querySelector('.entry.addentry .note')
-    const entry_duration = document.querySelector('.duration_output .duration')
+    // const entry_duration = document.querySelector('.duration_output .duration')
+    const entry_duration = document.querySelector('#output')
     const entry_start = document.querySelector('#start-time-input').value
+
+    console.log(entry_duration)
 
     // alter date for future events
     let entry_date = new Date()
@@ -524,27 +528,61 @@ const addNewEntry = () => {
         title: entry_title.innerHTML,
         note: entry_note.innerHTML,
         date: entry_date,
-        duration: entry_duration.textContent,
+        duration: entry_duration.dataset.duration,
     }
 
     if (entry_start !== '') {
         entry_data.entry_start = entry_start
+    } else {
+        entry_data.entry_start = ''
     }
 
-    console.log(entry_data)
+    // invalid start time
+    const time_validation = (starttime) => {
+        // formart the time
+        const str_time_ = (_time) => {
+            if (_time.toString().length === 1) {
+                return `0${_time.toString()}`
+            }
+            return _time.toString()
+        }
 
-    // reset the values
-    entry_title.innerHTML = 'add new'
-    entry_note.innerHTML = 'short note ...'
-    entry_duration.value = 30
-    Appnotification('new entry added')
-    ipcSend('calendar_entry', entry_data)
+        const now = `${str_time_(new Date().getHours())}${str_time_(new Date().getMinutes())}`
+        if (Number(starttime) > 2400 || Number(starttime) < 0) {
+            Appnotification('invalid time')
+        } else if (starttime.toString().length < 4) {
+            Appnotification('invalid start time need 24hr fmt')
+        } else if (Number(starttime) < Number(now) && RESET_DAY === undefined) {
+            console.log(RESET_DAY)
+            // if (!RESET_DAY) {
+            Appnotification('cannot add event in the past')
+            // }
+        } else {
+            Appnotification('new entry added')
+            // reset the values
+            entry_title.innerHTML = 'add new'
+            entry_note.innerHTML = 'short note ...'
+            entry_duration.value = 30
+            ipcSend('calendar_entry', entry_data)
+        }
+    }
+
+    // check valid schedule entries
+    if (!entry_data.entry_start) {
+        Appnotification('please add the start time')
+        document.querySelector('#start-time-input').focus()
+    } else {
+        time_validation(entry_data.entry_start)
+    }
 }
 
 const addtimeline = document.querySelector('#addschedule')
 addtimeline.addEventListener('click', () => addNewEntry())
 // new calendar entry added
-ipcRenderer.on('calendar-entry', (err, item) => createSchedule(item.title, item.note, item.date, item.duration))
+ipcRenderer.on('calendar-entry', (err, item) => {
+    console.log(item)
+    createSchedule(item.title, item.note, item.date, item.duration, item.entry_start)
+})
 // new dot entry added
 ipcRenderer.on('dot-entry', (err, item) => console.log(item))
 
@@ -627,9 +665,18 @@ new Editor()
 
 // slider
 const slider = document.querySelector('#slider')
-const output = document.querySelector('#output .duration')
+const output = document.querySelector('#output')
 slider.addEventListener('input', () => {
-    output.innerHTML = `${slider.value}`
+    let out_value = slider.value
+    let units = 'min'
+    if (out_value > 60) {
+        out_value /= 60
+        units = 'hrs'
+    }
+
+    output.dataset.duration = slider.value
+    const output_template = `<span class="duration">${Math.round(out_value)}</span>${units}`
+    output.innerHTML = output_template
 })
 
 // menu click
@@ -725,6 +772,7 @@ calendar_actions.forEach((_action) => {
 const AlterCalendar = (to) => {
     const _month = document.querySelector('.calendar-head .month');
     const _year = document.querySelector('.show-year')
+    const _date_today = document.querySelector('.date.active')
     let _month_index = calendar.monthNames.indexOf(_month.innerHTML)
     if (to === 'next') {
         _month_index += 1
@@ -742,7 +790,8 @@ const AlterCalendar = (to) => {
     }
 
     // a new calendar
-    const _new_month_date = new Date(_year.innerHTML, _month_index, 8)
+    const _date_today_index = new Date(_date_today.dataset.full_date).getDate()
+    const _new_month_date = new Date(_year.innerHTML, _month_index, _date_today_index)
     const _calendar = new Calendar(_new_month_date)
     const _dates_dom = document.createElement('div')
     _dates_dom.className = 'dates'
@@ -759,6 +808,7 @@ const AlterCalendar = (to) => {
             date.classList += ' active';
             const main = document.querySelector('.main')
             main.dataset.today = `${new Date(_calendar.year, _calendar.month, day)}`
+            // main.dataset.today = new Date(_date_today.dataset.full_date)
         }
         date.textContent = day
         _dates_dom.appendChild(date)
@@ -797,15 +847,11 @@ const create_pins = (pins) => {
         autoplay: {
             delay: 5000,
         },
-        // effect: 'fade',
-        // fadeEffect: {
-        //     crossFade: true,
-        // },
-        disableOnInteraction: true,
-        keyboard: {
-            enabled: true,
-            onlyInViewport: false,
+        effect: 'fade',
+        fadeEffect: {
+            crossFade: true,
         },
+        disableOnInteraction: true,
     })
 }
 
@@ -814,4 +860,116 @@ const goto = document.querySelector('.goto')
 goto.addEventListener('click', () => {
     console.log('reset day')
     RESET_DAY = undefined
+    const main_ = document.querySelector('.main')
+    // save today some other place
+    if (new Date(main_.dataset.today).getMonth() < new Date().getMonth()) {
+        AlterCalendar('next')
+    } else {
+        AlterCalendar('prev')
+    }
+    console.log(new Date())
+    // jumpToDate(new Date(main_.dataset.today))
+    jumpToDate(new Date())
+    document.querySelector('.show-today').style.display = 'none'
+    document.querySelector('.calendar-actions').style.right = '-3.2em'
 })
+
+const create_existing_dots = () => {
+    const dots = document.querySelectorAll('.d')
+    const dots_data_raw = JSON.parse(localStorage.getItem('dots')).dots === undefined ? [] : JSON.parse(localStorage.getItem('dots')).dots
+    // const dots_data = JSON.parse(localStorage.getItem('dots')).dots
+    const dots_data = dots_data_raw
+    dots_data.forEach((dd) => {
+        if (dd.task === active_activity) {
+            dots.forEach((dot) => {
+                if (dd.date === dot.dataset.date) {
+                    dot.dataset.checked = 'true';
+                    const ex = document.createElement('div')
+                    ex.innerHTML = 'X'
+                    dot.appendChild(ex)
+                }
+            })
+        }
+    })
+}
+
+const switch_activity_tab = (activity) => {
+    const _activities = document.querySelectorAll('.activity')
+    document.querySelector('#grid-dots').replaceWith(generate_dots(activity.dataset.start, activity.dataset.duration))
+    new PerfectScrollbar('#grid-dots')
+    const dots = document.querySelectorAll('.d')
+    // scroll_to_element('.active-d', '#grid-dots')
+    _activities.forEach((_act) => _act.classList.remove('active-tab'))
+    activity.classList += ' active-tab'
+    active_activity = activity.dataset.activity
+    create_existing_dots()
+    dots.forEach((dot) => dot.addEventListener('click', () => validateDot(dot)))
+}
+
+// add new task
+const add_new = document.querySelector('#add-activity')
+const add_overlay = document.querySelector('.add-overlay')
+add_new.addEventListener('click', () => {
+    if (add_overlay.dataset.shown === 'true') {
+        add_overlay.dataset.shown = false
+        add_overlay.style.display = 'none'
+        add_new.style = ''
+    } else {
+        add_overlay.dataset.shown = true
+        add_overlay.style.display = 'block'
+        add_new.style.transform = 'rotate(45deg)'
+    }
+})
+
+const save_to_form = document.querySelector('#save-dot-entry')
+const save_dot_entry = () => {
+    const _task = document.querySelector('#task_field').value
+    const _duration = document.querySelector('#duration_field').value
+    // const _auto_entry = document.querySelector('#auto_add_field').checked
+    // const _remind = document.querySelector('#remind_field').checked
+    // const _remind_time = document.querySelector('#remind_time_field').value
+    let _data = {
+        start: new Date(),
+        task: _task,
+        duration: _duration,
+        // auto_entry: _auto_entry,
+        // reminder: _remind,
+        // reminder_time: _remind_time,
+    }
+
+    if (_task !== '') {
+        ipcSend('dot_config', _data)
+    }
+
+    add_overlay.dataset.shown = false
+    add_overlay.style.display = 'none'
+    add_new.style = ''
+
+    // the new kid
+    const actions = document.querySelector('#dot-actions .right-menu')
+    const _durationx = _data.duration.split(' ')[0]
+    const _activity = document.createElement('div')
+    _activity.classList = 'activity action'
+    _activity.dataset.activity = _data.task
+    _activity.dataset.duration = _durationx
+    _activity.dataset.start = _data.start
+    _activity.textContent = _data.task
+    actions.prepend(_activity)
+
+    // event listeners for ya
+    _activity.addEventListener('click', () => {
+        switch_activity_tab(_activity)
+    })
+
+    // reset
+    _data = null
+    document.querySelector('#task_field').value = ''
+    document.querySelector('#duration_field').value = ''
+    document.querySelector('#auto_add_field').checked = false
+    document.querySelector('#remind_time_field').value = ''
+    document.querySelector('#remind_field').checked = false
+}
+
+save_to_form.addEventListener('click', save_dot_entry)
+
+document.querySelector('#currentHr').innerHTML = new Date().getHours()
