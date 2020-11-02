@@ -131,8 +131,10 @@ const createSchedule = (title, note, date, duration, start = '') => {
 const showTodaySchedule = (date) => {
     const date_js = new Date(date)
     const date_str = `${date_js.getDate()}:${date_js.getMonth()}:${date_js.getFullYear()}`
-    const data = JSON.parse(localStorage.getItem('entries'))
-
+    let data = JSON.parse(localStorage.getItem('entries'))
+    if (data === null) {
+        data = { entries: [] }
+    }
     const today_schedule = data.entries.filter((_data) => {
         const today = new Date(_data.date)
         const today_str = `${today.getDate()}:${today.getMonth()}:${today.getFullYear()}`
@@ -360,7 +362,12 @@ const validateDot = (dot) => {
             exact: 'exact',
         }
         dot.dataset.checked = true
-        const dots_in_local = JSON.parse(localStorage.getItem('dots')).dots
+        let dots_in_local;
+        if (JSON.parse(localStorage.getItem('dots') === null)) {
+            dots_in_local = []
+        } else {
+            dots_in_local = JSON.parse(localStorage.getItem('dots')).dots
+        }
         dots_in_local.push(db_data)
         localStorage.setItem('dots', JSON.stringify({ dots: dots_in_local }))
         ipcSend('dot_entry', db_data)
@@ -434,10 +441,10 @@ const Logbook = (date = '') => {
 
     // create autosave
     notebook.addEventListener('keyup', () => {
-        if ('show_banner' in notebook.classList) {
-            console.log('show banner is there')
-            notebook.classList.remove('show_banner')
-        }
+        // if ('show_banner' in notebook.classList) {
+        //     console.log('show banner is there')
+        notebook.classList.remove('show_banner')
+        // }
         log_save.click()
     })
 }
@@ -486,7 +493,7 @@ const addNewEntry = () => {
     const entry_duration = document.querySelector('#output')
     const entry_start = document.querySelector('#start-time-input').value
 
-    console.log(entry_duration)
+    // console.log(entry_duration)
 
     // alter date for future events
     let entry_date = new Date()
@@ -540,7 +547,7 @@ const addtimeline = document.querySelector('#addschedule')
 addtimeline.addEventListener('click', () => addNewEntry())
 // new calendar entry added
 ipcRenderer.on('calendar-entry', (err, item) => {
-    console.log(item)
+    // console.log(item)
     createSchedule(item.title, item.note, item.date, item.duration, item.entry_start)
 })
 // new dot entry added
@@ -822,16 +829,16 @@ const create_pins = (pins) => {
 // scrap dya
 const goto = document.querySelector('.goto')
 goto.addEventListener('click', () => {
-    console.log('reset day')
+    // console.log('reset day')
     RESET_DAY = undefined
     const main_ = document.querySelector('.main')
     // save today some other place
     if (new Date(main_.dataset.today).getMonth() < new Date().getMonth()) {
         AlterCalendar('next')
-    } else {
+    } else if (new Date(main_.dataset.today).getMonth() > new Date().getMonth()) {
         AlterCalendar('prev')
     }
-    console.log(new Date())
+    // console.log(new Date())
     // jumpToDate(new Date(main_.dataset.today))
     jumpToDate(new Date())
     document.querySelector('.show-today').style.display = 'none'
@@ -840,8 +847,13 @@ goto.addEventListener('click', () => {
 
 const create_existing_dots = () => {
     const dots = document.querySelectorAll('.d')
-    const dots_data_raw = JSON.parse(localStorage.getItem('dots')).dots === undefined ? [] : JSON.parse(localStorage.getItem('dots')).dots
-    // const dots_data = JSON.parse(localStorage.getItem('dots')).dots
+    const local_storage_dots = JSON.parse(localStorage.getItem('dots'))
+    let dots_data_raw;
+    if (local_storage_dots === null) {
+        dots_data_raw = []
+    } else {
+        dots_data_raw = JSON.parse(localStorage.getItem('dots')).dots === undefined ? [] : JSON.parse(localStorage.getItem('dots')).dots
+    }
     const dots_data = dots_data_raw
     dots_data.forEach((dd) => {
         if (dd.task === active_activity) {
@@ -923,9 +935,6 @@ const save_dot_entry = () => {
     _data = null
     document.querySelector('#task_field').value = ''
     document.querySelector('#duration_field').value = ''
-    document.querySelector('#auto_add_field').checked = false
-    document.querySelector('#remind_time_field').value = ''
-    document.querySelector('#remind_field').checked = false
 }
 
 save_to_form.addEventListener('click', save_dot_entry)

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
@@ -27,8 +28,8 @@ app.on('ready', () => {
 
     MainWindow = new BrowserWindow({
         frame: false,
-        width: 900,
-        height: 768,
+        width: 1150,
+        height: 745,
         autoHideMenuBar: true,
         backgroundColor: '#2b2b2b',
         icon: path.join(__dirname, 'assets', 'icons', 'png', 'cal_x.png'),

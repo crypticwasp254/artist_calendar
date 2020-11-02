@@ -1,6 +1,6 @@
 {
     "dest": "dist/installers/",
-    "icon": "assets/icons/png/cal_x.png",
+    "icon": "/home/clifford/ZZ/calender/build/icons/512x512.png",
     "categories": [
         "Utility"
     ],
